@@ -108,6 +108,14 @@ typedef struct s_data
 /*		MAIN		*/
 int	error_message(char *str);
 
+/*		VECTOR OPERATIONS		*/
+float	v_len(t_vec3 vec);
+void	v_add(t_vec3 *vec, t_vec3 vec2);
+void	v_subtract(t_vec3 *vec, t_vec3 vec2);
+void	v_scale(t_vec3 *vec, float c);
+float	v_dot(t_vec3 vec , t_vec3 vec2);
+t_vec3	v_cross(t_vec3 vec, t_vec3 vec2);
+
 /*		ERRORS		*/
 int	error_message(char *str);
 
