@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:42:45 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:36:57 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static void	setup_scene(t_scene *scene)
 	scene->num_sp = 1;
 	scene->spheres = malloc(sizeof(t_sphere *) * scene->num_sp);
 	scene->spheres[0] = malloc(sizeof(t_sphere));
-	scene->spheres[0]->center = (t_vec3){0.f, 0.f, 20.f};
-	scene->spheres[0]->diameter = 20.f;
-	scene->spheres[0]->r = 10.f; // Radius is diameter / 2
+	scene->spheres[0]->center = (t_vec3){10.f, 10.f, 20.f};
+	scene->spheres[0]->diameter = 10.f;
+	scene->spheres[0]->r = 5.f; // Radius is diameter / 2
 	scene->spheres[0]->colour = (t_colour){255, 0, 0, 1.f};
 
 	// Cylinder setup
@@ -65,10 +65,13 @@ static void	setup_scene(t_scene *scene)
 	};
 }
 
-static int init_data(t_data *data, char *file)
+static int	init_data(t_data *data, char *file)
 {
+	t_vec3	half_viewport_u;
+	t_vec3	half_viewport_v;
+
 	if (rt_file(file) != 0)
-		return(error_message("Error\nwrong file extension: must be .rt\n"));
+		return (error_message("Error\nwrong file extension: must be .rt"));
 	//----- parsing filler ------
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
 	setup_scene(data->scene);
@@ -77,11 +80,38 @@ static int init_data(t_data *data, char *file)
 	data->h = HEIGHT; //can be some check here actually
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_length = 1.f;
+	data->viewport_w = 2 * data->focal_length
+		* tanf(data->scene->camera.fov_rad / 2);
 	data->viewport_h = data->viewport_w / data->aspect_ratio;
-	data->viewport_w = 2 * data->focal_length * tanf(data->scene->camera.fov_rad / 2);
+
 	data->viewport_u = (t_vec3){data->viewport_w, 0, 0};
-    data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0};
-	return(EXIT_SUCCESS);
+	data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0};
+	printf("viewport_u ={%f, %f, %f}\n", data->viewport_u.x, data->viewport_u.y, data->viewport_u.z);
+	data->pixel_delta_u = data->viewport_u;
+	v_scale(&data->pixel_delta_u, 1.f / data->w);
+	data->pixel_delta_v = data->viewport_v;
+	v_scale(&data->pixel_delta_v, 1.f / data->h);
+	printf("pixel_delta_u ={%f, %f, %f}\n", data->pixel_delta_u.x, data->pixel_delta_u.y, data->pixel_delta_u.z);
+
+	data->viewport_upper_left = data->scene->camera.view_point;
+	half_viewport_u = data->viewport_u;
+	v_scale(&half_viewport_u, 0.5f);
+	half_viewport_v = data->viewport_v;
+	v_scale(&half_viewport_v, 0.5f);
+	v_subtract(&data->viewport_upper_left, (t_vec3){0, 0, data->focal_length});
+	v_subtract(&data->viewport_upper_left, half_viewport_u);
+	v_subtract(&data->viewport_upper_left, half_viewport_v);
+	printf("viewport_upper_left ={%f, %f, %f}\n", data->viewport_upper_left.x, data->viewport_upper_left.y, data->viewport_upper_left.z);
+
+	data->pixel00_loc = data->viewport_upper_left;
+	v_scale(&data->pixel_delta_u, 0.5f);
+	v_scale(&data->pixel_delta_v, 0.5f);
+	v_add(&data->pixel00_loc, data->pixel_delta_u);
+	v_add(&data->pixel00_loc, data->pixel_delta_v);
+	v_scale(&data->pixel_delta_u, 2.f); //scale back because no inter vec was created
+	v_scale(&data->pixel_delta_v, 2.f);
+	printf("pixel00_loc ={%f, %f, %f}\n", data->pixel00_loc.x, data->pixel00_loc.y, data->pixel00_loc.z);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
@@ -95,11 +125,12 @@ int	main(int argc, char *argv[])
 	data.mlx = mlx_init();
 	data.window = mlx_new_window(data.mlx, data.w, data.h, "miniRT");
 	data.img.img = mlx_new_image(data.mlx, data.w, data.h);
-	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp, &data.img.size_l, &data.img.endian);
+	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
+			&data.img.size_l, &data.img.endian);
 	put_pixels(&data);
 	mlx_put_image_to_window(data.mlx, data.window, data.img.img, 0, 0);
-	mlx_hook(data.window, 17, 0, clean_exit, &data); //cross button
-	mlx_hook(data.window, 2, 1L<<0, key_hook, &data);
+	mlx_hook(data.window, 17, 0, clean_exit, &data);
+	mlx_hook(data.window, 2, 1L << 0, key_hook, &data);
 	mlx_loop(data.mlx);
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

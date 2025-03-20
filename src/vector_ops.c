@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:15 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:16 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:13:07 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	v_scale(t_vec3 *vec, float c)
 	vec->z *= c;
 }
 
-float	v_dot(t_vec3 vec , t_vec3 vec2)
+float	v_dot(t_vec3 vec, t_vec3 vec2)
 {
 	float	res;
 

@@ -6,31 +6,39 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 12:12:41 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:56:40 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-t_ray send_cam_ray(t_data *data, int x, int y)
+t_ray	send_cam_ray(t_data *data, int x, int y)
 {
-	t_vec3	viewport_upper_left;
-	t_vec3	half_viewport_u;
-	t_vec3	half_viewport_v;
-	t_ray ray;
-	(void)x, (void)y;
+	t_ray	ray;
+	t_vec3	pixel_center;
+
 	// ray.start = data->scene->camera.view_point;
 	//change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
 	ray.start = (t_vec3){0.f, 0.f, 0.f};
-	// ray.dir = data->scene->camera.norm.z;
-	viewport_upper_left = data->scene->camera.view_point;
-	half_viewport_u = data->viewport_u;
-	v_scale(&half_viewport_u, 0.5f);
-	half_viewport_v = data->viewport_v;
-	v_scale(&half_viewport_v, 0.5f);
-	v_subtract(&viewport_upper_left, (t_vec3){0, 0, data->focal_length});
-	v_subtract(&viewport_upper_left, half_viewport_u);
-	v_subtract(&viewport_upper_left, half_viewport_v);
+	// printf("x= %d, y= %d\n", x, y);
+	pixel_center = data->pixel00_loc;
+	if (x != 0)
+	{
+		v_scale(&data->pixel_delta_u, (float)x);
+		v_add(&pixel_center, data->pixel_delta_u);
+	}
+	if (y != 0)
+	{
+		v_scale(&data->pixel_delta_v, (float)y);
+		v_add(&pixel_center, data->pixel_delta_v);
+	}
+	// printf("pixel_center ={%f, %f, %f}\n",pixel_center.x, pixel_center.y, pixel_center.z);
+	ray.dir = pixel_center;
+	v_subtract(&ray.dir, ray.start);
+	if (x != 0)
+		v_scale(&data->pixel_delta_u, 1.f / x);
+	if (y != 0)
+		v_scale(&data->pixel_delta_v, 1.f / y);
 	return (ray);
 }
 
@@ -54,21 +62,30 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 
 void	put_pixels(t_data *data)
 {
-	int		x;
-	int		y;
-	t_ray	ray;
-	t_colour colour;
+	t_colour	colour;
+	t_ray		ray;
+	int			x;
+	int			y;
 
 	y = 0;
 	while (y < data->h)
+	// while (y < 10)
 	{
 		x = 0;
 		while (x < data->w)
+		// while (x < 2)
 		{
 			ray = send_cam_ray(data, x, y);
+			// printf("ray dir ={%f, %f, %f}\n", ray.dir.x, ray.dir.y, ray.dir.z);
 			if (hit_sphere(ray, data->scene->spheres[0]) >= 0)
 			{
 				colour = (t_colour){255, 0, 0, 1.f};
+				printf("hit sphere at x=%d, y=%d with ray dir ={%f, %f, %f}\n", x, y, ray.dir.x, ray.dir.y, ray.dir.z);
+			}
+			else
+			{
+				colour = (t_colour){0, 0, 0, 0.f};
+				// printf("DID NOT hit sphere at x=%d, y=%d\n", x, y);
 			}
 			put_pixel_to_img(&data->img, x, y, rgb_to_int(colour));
 			x++;

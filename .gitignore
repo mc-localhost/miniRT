@@ -1,6 +1,7 @@
 .gitignore
 miniRT
 *.o
+*.a
 obj
 .DS_Store
 .vscode
