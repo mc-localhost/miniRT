@@ -147,6 +147,8 @@ t_vec3				v_add(t_vec3 vec, t_vec3 vec2);
 t_vec3				v_subtract(t_vec3 vec, t_vec3 vec2);
 t_vec3				v_scale(t_vec3 vec, float c);
 float				v_len(t_vec3 vec);
+t_vec3				v_unit(t_vec3 vec);
+t_vec3				v_at(t_ray ray, float t);
 float				v_dot(t_vec3 vec, t_vec3 vec2);
 t_vec3				v_cross(t_vec3 vec, t_vec3 vec2);
 void				v_add_inplace(t_vec3 *vec, t_vec3 vec2);
@@ -155,6 +157,7 @@ void				v_scale_inplace(t_vec3 *vec, float c);
 
 /*		SPHERE		*/
 float				hit_sphere(t_ray r, t_sphere *sp);
+float				solve_quadratic(float d, float a, float b);
 
 /*		ERRORS		*/
 int					error_message(char *str);

@@ -26,5 +26,21 @@ float	hit_sphere(t_ray r, t_sphere *sp)
 	c = v_dot(oc, oc) - sp->r * sp->r;
 	d = b * b - 4 * a * c;
 	// printf("a=%f, b=%f, c=%f, d=%f\n", a, b, c, d);
-	return (d);
+	return (solve_quadratic(d, a, b));
+}
+
+float	solve_quadratic(float d, float a, float b)
+{
+	float	x1;
+	float	x2;
+
+	if (d < 0.0f)
+		return (nanf(""));
+	x1 = (-b + sqrtf(d)) / (2.f * a);
+	x2 = (-b - sqrtf(d)) / (2.f * a);
+	if (x2 > 0)
+		return (x2);
+	if (x1 > 0)
+		return (x1);
+	return (nanf(""));
 }

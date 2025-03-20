@@ -49,6 +49,16 @@ float	v_len(t_vec3 vec)
 	return (sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }
 
+t_vec3	v_unit(t_vec3 vec)
+{
+	return (v_scale(vec, 1.f / v_len(vec)));
+}
+
+t_vec3	v_at(t_ray ray, float t)
+{
+	return (v_add(ray.start, v_scale(ray.dir, t)));
+}
+
 float	v_dot(t_vec3 vec, t_vec3 vec2)
 {
 	float	res;

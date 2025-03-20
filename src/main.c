@@ -46,7 +46,7 @@ static void	setup_scene(t_scene *scene)
 	scene->num_sp = 1;
 	scene->spheres = malloc(sizeof(t_sphere *) * scene->num_sp);
 	scene->spheres[0] = malloc(sizeof(t_sphere));
-	scene->spheres[0]->center = (t_vec3){0.f, 0.f, -50.f};
+	scene->spheres[0]->center = (t_vec3){0.f, 0.f, -20.f};
 	scene->spheres[0]->diameter = 10.f;
 	scene->spheres[0]->r = 5.f; // Radius is diameter / 2
 	scene->spheres[0]->colour = (t_colour){255, 0, 0, 1.f};

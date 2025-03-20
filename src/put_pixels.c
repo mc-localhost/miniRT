@@ -51,6 +51,8 @@ void	put_pixels(t_data *data)
 	t_ray		ray;
 	int			x;
 	int			y;
+	float		t;
+	t_vec3		N;
 
 	y = 0;
 	while (y < data->h)
@@ -62,15 +64,20 @@ void	put_pixels(t_data *data)
 		{
 			ray = send_cam_ray(data, x, y);
 			// printf("ray dir ={%f, %f, %f}\n", ray.dir.x, ray.dir.y, ray.dir.z);
-			if (hit_sphere(ray, data->scene->spheres[0]) >= 0)
+			t = hit_sphere(ray, data->scene->spheres[0]);
+			if (t >= 0)
 			{
-				colour = (t_colour){255, 0, 0, 1.f};
+				N = v_unit(v_subtract(v_at(ray, t), (t_vec3){0, 0, -1}));
+				// colour = data->scene->spheres[0]->colour;
+				// colour = (t_colour){ 0.5f * (N.x + 1), 0.5f * (N.y + 1), 0.5f * (N.z + 1), 1.f};
+				colour = (t_colour){0.5f * 255.999f * (N.x + 1), 0, 0, 1.f};
+				// printf("N ={%f, %f, %f}\n", N.x, N.y, N.z);
+				// printf("colour ={%d, %d, %d}\n", colour.r, colour.g, colour.b);
 				// printf("hit sphere at x=%d, y=%d with ray dir ={%f, %f, %f}\n", x, y, ray.dir.x, ray.dir.y, ray.dir.z);
 			}
 			else
 			{
 				colour = (t_colour){0, 0, 0, 0.f};
-				// printf("DID NOT hit sphere at x=%d, y=%d\n", x, y);
 			}
 			put_pixel_to_img(&data->img, x, y, rgb_to_int(colour));
 			x++;
