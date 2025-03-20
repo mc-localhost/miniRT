@@ -17,28 +17,13 @@ t_ray	send_cam_ray(t_data *data, int x, int y)
 	t_ray	ray;
 	t_vec3	pixel_center;
 
-	// ray.start = data->scene->camera.view_point;
+	ray.start = data->scene->camera.view_point; //(t_vec3){0.f, 0.f, 0.f}; at the moment
 	//change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
-	ray.start = (t_vec3){0.f, 0.f, 0.f};
-	// printf("x= %d, y= %d\n", x, y);
 	pixel_center = data->pixel00_loc;
-	if (x != 0)
-	{
-		v_scale(&data->pixel_delta_u, (float)x);
-		v_add(&pixel_center, data->pixel_delta_u);
-	}
-	if (y != 0)
-	{
-		v_scale(&data->pixel_delta_v, (float)y);
-		v_add(&pixel_center, data->pixel_delta_v);
-	}
+	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_u, (float)x));
+	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_v, (float)y));
 	// printf("pixel_center ={%f, %f, %f}\n",pixel_center.x, pixel_center.y, pixel_center.z);
-	ray.dir = pixel_center;
-	v_subtract(&ray.dir, ray.start);
-	if (x != 0)
-		v_scale(&data->pixel_delta_u, 1.f / x);
-	if (y != 0)
-		v_scale(&data->pixel_delta_v, 1.f / y);
+	ray.dir = v_subtract(pixel_center, ray.start);
 	return (ray);
 }
 
@@ -80,7 +65,7 @@ void	put_pixels(t_data *data)
 			if (hit_sphere(ray, data->scene->spheres[0]) >= 0)
 			{
 				colour = (t_colour){255, 0, 0, 1.f};
-				printf("hit sphere at x=%d, y=%d with ray dir ={%f, %f, %f}\n", x, y, ray.dir.x, ray.dir.y, ray.dir.z);
+				// printf("hit sphere at x=%d, y=%d with ray dir ={%f, %f, %f}\n", x, y, ray.dir.x, ray.dir.y, ray.dir.z);
 			}
 			else
 			{

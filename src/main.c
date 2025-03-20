@@ -24,7 +24,7 @@ static void	setup_scene(t_scene *scene)
 		.norm = (t_vec3){0.f, 0.f, 0.f},
 		.fov_deg = 70
 	};
-	scene->camera.fov_rad = scene->camera.fov_deg * (M_PI / 180.0f);
+	scene->camera.fov_rad = scene->camera.fov_deg * (M_PI / 180.f);
 
 	// Light setup
 	scene->light = (t_light){
@@ -46,7 +46,7 @@ static void	setup_scene(t_scene *scene)
 	scene->num_sp = 1;
 	scene->spheres = malloc(sizeof(t_sphere *) * scene->num_sp);
 	scene->spheres[0] = malloc(sizeof(t_sphere));
-	scene->spheres[0]->center = (t_vec3){10.f, 10.f, 20.f};
+	scene->spheres[0]->center = (t_vec3){0.f, 0.f, -50.f};
 	scene->spheres[0]->diameter = 10.f;
 	scene->spheres[0]->r = 5.f; // Radius is diameter / 2
 	scene->spheres[0]->colour = (t_colour){255, 0, 0, 1.f};
@@ -67,9 +67,6 @@ static void	setup_scene(t_scene *scene)
 
 static int	init_data(t_data *data, char *file)
 {
-	t_vec3	half_viewport_u;
-	t_vec3	half_viewport_v;
-
 	if (rt_file(file) != 0)
 		return (error_message("Error\nwrong file extension: must be .rt"));
 	//----- parsing filler ------
@@ -83,34 +80,30 @@ static int	init_data(t_data *data, char *file)
 	data->viewport_w = 2 * data->focal_length
 		* tanf(data->scene->camera.fov_rad / 2);
 	data->viewport_h = data->viewport_w / data->aspect_ratio;
-
 	data->viewport_u = (t_vec3){data->viewport_w, 0, 0};
 	data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0};
+	
 	printf("viewport_u ={%f, %f, %f}\n", data->viewport_u.x, data->viewport_u.y, data->viewport_u.z);
-	data->pixel_delta_u = data->viewport_u;
-	v_scale(&data->pixel_delta_u, 1.f / data->w);
-	data->pixel_delta_v = data->viewport_v;
-	v_scale(&data->pixel_delta_v, 1.f / data->h);
+	
+	data->pixel_delta_u = v_scale(data->viewport_u, 1.f / data->w);
+	data->pixel_delta_v = v_scale(data->viewport_v, 1.f / data->h);
+	
 	printf("pixel_delta_u ={%f, %f, %f}\n", data->pixel_delta_u.x, data->pixel_delta_u.y, data->pixel_delta_u.z);
-
+	
+	data->scene->camera.view_point = (t_vec3){0.f, 0.f, 0.f}; //change later to account for direction
 	data->viewport_upper_left = data->scene->camera.view_point;
-	half_viewport_u = data->viewport_u;
-	v_scale(&half_viewport_u, 0.5f);
-	half_viewport_v = data->viewport_v;
-	v_scale(&half_viewport_v, 0.5f);
-	v_subtract(&data->viewport_upper_left, (t_vec3){0, 0, data->focal_length});
-	v_subtract(&data->viewport_upper_left, half_viewport_u);
-	v_subtract(&data->viewport_upper_left, half_viewport_v);
+	v_subtract_inplace(&data->viewport_upper_left, (t_vec3){0, 0, data->focal_length});
+	v_subtract_inplace(&data->viewport_upper_left, v_scale(data->viewport_u, 0.5f));
+	v_subtract_inplace(&data->viewport_upper_left, v_scale(data->viewport_v, 0.5f));
+	
 	printf("viewport_upper_left ={%f, %f, %f}\n", data->viewport_upper_left.x, data->viewport_upper_left.y, data->viewport_upper_left.z);
-
+	
 	data->pixel00_loc = data->viewport_upper_left;
-	v_scale(&data->pixel_delta_u, 0.5f);
-	v_scale(&data->pixel_delta_v, 0.5f);
-	v_add(&data->pixel00_loc, data->pixel_delta_u);
-	v_add(&data->pixel00_loc, data->pixel_delta_v);
-	v_scale(&data->pixel_delta_u, 2.f); //scale back because no inter vec was created
-	v_scale(&data->pixel_delta_v, 2.f);
+	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_u, 0.5f));
+	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_v, 0.5f));
+	
 	printf("pixel00_loc ={%f, %f, %f}\n", data->pixel00_loc.x, data->pixel00_loc.y, data->pixel00_loc.z);
+	
 	return (EXIT_SUCCESS);
 }
 
