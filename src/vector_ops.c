@@ -21,9 +21,9 @@ void	v_subtract(t_vec3 *vec, t_vec3 vec2)
 
 void	v_scale(t_vec3 *vec, float c)
 {
-	vec->x = c * vec->x;
-	vec->y = c * vec->y;
-	vec->z = c * vec->z;
+	vec->x *= c;
+	vec->y *= c;
+	vec->z *= c;
 }
 
 float	v_dot(t_vec3 vec , t_vec3 vec2)

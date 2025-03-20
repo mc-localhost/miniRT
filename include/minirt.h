@@ -56,7 +56,7 @@ typedef struct s_camera
 {
 	t_vec3			view_point;
 	t_vec3			norm;
-	float			fov;
+	float			fov_rad;
 	int				fov_deg;
 }					t_camera;
 
@@ -70,6 +70,13 @@ typedef struct s_ambient_light
 {
 	t_colour		colour;
 }					t_ambient_light;
+
+typedef struct s_ray
+{
+	t_vec3			start;
+	t_vec3			dir;
+	t_colour		colour;
+}					t_ray;
 
 typedef struct s_scene
 {
@@ -102,11 +109,23 @@ typedef struct s_data
 	int		w;
 	int		h;
 	float	aspect_ratio;
+	//-------------
+	float viewport_h;
+	float viewport_w;
+	t_vec3 viewport_u;
+	t_vec3 viewport_v;
+	float focal_length;
 
 }				t_data;
 
 /*		MAIN		*/
 int	error_message(char *str);
+
+/*		PUT PIXELS		*/
+t_ray send_cam_ray(t_data *data);
+int	rgb_to_int(t_colour c);
+void	put_pixel_to_img(t_img *img, int x, int y, int colour);
+void	put_pixels(t_data *data);
 
 /*		VECTOR OPERATIONS		*/
 float	v_len(t_vec3 vec);
@@ -115,6 +134,9 @@ void	v_subtract(t_vec3 *vec, t_vec3 vec2);
 void	v_scale(t_vec3 *vec, float c);
 float	v_dot(t_vec3 vec , t_vec3 vec2);
 t_vec3	v_cross(t_vec3 vec, t_vec3 vec2);
+
+/*		SPHERE		*/
+float hit_sphere(t_ray r, t_sphere *sp);
 
 /*		ERRORS		*/
 int	error_message(char *str);
@@ -127,5 +149,6 @@ int	rt_file(char *file);
 
 /*		CLEANUP		*/
 int clean_exit(t_data *data);
+int key_hook(int k, t_data *data);
 
 #endif

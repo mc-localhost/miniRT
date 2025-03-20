@@ -1,5 +1,42 @@
 #include "../include/minirt.h"
 
+void	free_scene(t_scene *scene) //maybe switch to garbage collector later
+{
+	int	i;
+
+	i = 0;
+	if (scene->num_sp > 0)
+	{
+		while (i < scene->num_sp)
+		{
+			free(scene->spheres[i]);
+			i++;
+		}
+		free(scene->spheres);
+	}
+	i = 0;
+	if (scene->num_pl > 0)
+	{
+		while (i < scene->num_pl)
+		{
+			free(scene->planes[i]);
+			i++;
+		}
+		free(scene->planes);
+	}
+	i = 0;
+	if (scene->num_cy > 0)
+	{
+		while (i < scene->num_cy)
+		{
+			free(scene->cylinders[i]);
+			i++;
+		}
+		free(scene->cylinders);
+	}
+	free(scene);
+}
+
 int clean_exit(t_data *data)
 {
 	if (data->img.img)
@@ -9,5 +46,14 @@ int clean_exit(t_data *data)
 	if (data->mlx)
 		free(data->mlx);
 	// + free everything else before exiting
+	if (data->scene)
+		free_scene(data->scene);
 	exit(0);
+}
+
+int key_hook(int k, t_data *data)
+{
+	if (k == 53) //ESC
+		clean_exit(data);
+	return(EXIT_SUCCESS);
 }
