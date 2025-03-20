@@ -143,12 +143,15 @@ void				put_pixel_to_img(t_img *img, int x, int y, int colour);
 void				put_pixels(t_data *data);
 
 /*		VECTOR OPERATIONS		*/
+t_vec3				v_add(t_vec3 vec, t_vec3 vec2);
+t_vec3				v_subtract(t_vec3 vec, t_vec3 vec2);
+t_vec3				v_scale(t_vec3 vec, float c);
 float				v_len(t_vec3 vec);
-void				v_add(t_vec3 *vec, t_vec3 vec2);
-void				v_subtract(t_vec3 *vec, t_vec3 vec2);
-void				v_scale(t_vec3 *vec, float c);
 float				v_dot(t_vec3 vec, t_vec3 vec2);
 t_vec3				v_cross(t_vec3 vec, t_vec3 vec2);
+void				v_add_inplace(t_vec3 *vec, t_vec3 vec2);
+void				v_subtract_inplace(t_vec3 *vec, t_vec3 vec2);
+void				v_scale_inplace(t_vec3 *vec, float c);
 
 /*		SPHERE		*/
 float				hit_sphere(t_ray r, t_sphere *sp);
