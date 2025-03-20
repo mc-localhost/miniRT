@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:10 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/04/16 16:26:35 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/01/25 13:21:46 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "libft.h"
 
-float hit_sphere(t_ray r, t_sphere *sp)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	t_vec3	oc;
+	size_t	i;
 
-	oc = sp->center;
-	v_subtract(&oc, r.start);
-	a = v_dot(r.dir, r.dir);
-	b = -2.0 * v_dot(r.dir, oc);
-	c = v_dot(oc, oc) - sp->r * sp->r;
-	d = b * b - 4 * a * c;
-	return (d);
+	i = 0;
+	while ((*(unsigned char *)(s1 + i) == *(unsigned char *)(s2 + i))
+			&& *(unsigned char *)(s1 + i) != '\0'
+			&& *(unsigned char *)(s2 + i) != '\0')
+		i++;
+	return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
 }

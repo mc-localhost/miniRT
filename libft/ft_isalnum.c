@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:10 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/10/11 18:40:05 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/11 18:49:52 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "libft.h"
 
-float hit_sphere(t_ray r, t_sphere *sp)
+int	ft_isalnum(int i)
 {
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	t_vec3	oc;
-
-	oc = sp->center;
-	v_subtract(&oc, r.start);
-	a = v_dot(r.dir, r.dir);
-	b = -2.0 * v_dot(r.dir, oc);
-	c = v_dot(oc, oc) - sp->r * sp->r;
-	d = b * b - 4 * a * c;
-	return (d);
+	if ((i >= 'A' && i <= 'Z') || (i >= 'a' && i <= 'z')
+		|| (i >= '0' && i <= '9'))
+		return (1);
+	else
+		return (0);
 }
+
+// int main(void)
+// {
+// 	char	src = '6';
+// 	printf ("%d", ft_isalnum (src));
+// 	printf ("%s", "\n");
+// 	printf ("%d", isalnum (src));
+// 	return (0);
+// }

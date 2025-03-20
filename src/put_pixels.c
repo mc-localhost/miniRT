@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   put_pixels.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/03/20 12:12:41 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minirt.h"
 
-t_ray send_cam_ray(t_data *data, int pix_c, int pix_r)
+t_ray send_cam_ray(t_data *data, int x, int y)
 {
 	t_vec3	viewport_upper_left;
 	t_vec3	half_viewport_u;
 	t_vec3	half_viewport_v;
 	t_ray ray;
-
+	(void)x, (void)y;
 	// ray.start = data->scene->camera.view_point;
 	//change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
 	ray.start = (t_vec3){0.f, 0.f, 0.f};
-	ray.dir = data->scene->camera.norm.z;
+	// ray.dir = data->scene->camera.norm.z;
 	viewport_upper_left = data->scene->camera.view_point;
 	half_viewport_u = data->viewport_u;
 	v_scale(&half_viewport_u, 0.5f);
@@ -53,7 +65,7 @@ void	put_pixels(t_data *data)
 		x = 0;
 		while (x < data->w)
 		{
-			ray = send_cam_ray(x, y);
+			ray = send_cam_ray(data, x, y);
 			if (hit_sphere(ray, data->scene->spheres[0]) >= 0)
 			{
 				colour = (t_colour){255, 0, 0, 1.f};

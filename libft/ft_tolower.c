@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:10 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/04/16 11:18:45 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/12 13:50:14 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "libft.h"
 
-float hit_sphere(t_ray r, t_sphere *sp)
+int	ft_tolower(int i)
 {
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	t_vec3	oc;
-
-	oc = sp->center;
-	v_subtract(&oc, r.start);
-	a = v_dot(r.dir, r.dir);
-	b = -2.0 * v_dot(r.dir, oc);
-	c = v_dot(oc, oc) - sp->r * sp->r;
-	d = b * b - 4 * a * c;
-	return (d);
+	if (i >= 'A' && i <= 'Z')
+		return (i += 32);
+	return (i);
 }
+
+// int main(void)
+// {
+// 	char	src = 'E';
+
+// 	printf ("%d", ft_tolower (src));
+// 	printf ("%s", "\n");
+// 	printf ("%d", tolower (src));
+// 	return (0);
+// }

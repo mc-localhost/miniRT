@@ -2,7 +2,5 @@
 miniRT
 *.o
 obj
-libft
-mlx
 .DS_Store
 .vscode

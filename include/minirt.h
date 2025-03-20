@@ -1,31 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/03/20 12:12:25 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
 # include "../libft/libft.h"
-
 # include <math.h>
+# include <mlx/mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <mlx/mlx.h>
 
 # define WIDTH 600
 # define HEIGHT 300
 
 typedef struct s_vec3
 {
-	float		x;
-	float		y;
-	float		z;
-}				t_vec3;
+	float			x;
+	float			y;
+	float			z;
+}					t_vec3;
 
 typedef struct s_colour
 {
-	int			r;
-	int			g;
-	int			b;
+	int				r;
+	int				g;
+	int				b;
 	// for lights' brightness and ratio
-	float		ratio;
-}				t_colour;
+	float			ratio;
+}					t_colour;
 
 typedef struct s_sphere
 {
@@ -80,75 +91,74 @@ typedef struct s_ray
 
 typedef struct s_scene
 {
-	t_sphere	**spheres;
-	t_cylinder	**cylinders;
-	t_plane	**planes;
-	int	num_sp;
-	int	num_cy;
-	int	num_pl;
-	t_camera	camera;
-	t_light	light;
-	t_ambient_light a_light;
+	t_sphere		**spheres;
+	t_cylinder		**cylinders;
+	t_plane			**planes;
+	int				num_sp;
+	int				num_cy;
+	int				num_pl;
+	t_camera		camera;
+	t_light			light;
+	t_ambient_light	a_light;
 }					t_scene;
 
 typedef struct s_img
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		size_l;
-	int		endian;
-}			t_img;
+	void			*img;
+	char			*addr;
+	int				bpp;
+	int				size_l;
+	int				endian;
+}					t_img;
 
 typedef struct s_data
 {
-	void	*mlx;
-	void	*window;
-	t_img	img;
-	t_scene	*scene;
-	int		w;
-	int		h;
-	float	aspect_ratio;
+	void			*mlx;
+	void			*window;
+	t_img			img;
+	t_scene			*scene;
+	int				w;
+	int				h;
+	float			aspect_ratio;
 	//-------------
-	float viewport_h;
-	float viewport_w;
-	t_vec3 viewport_u;
-	t_vec3 viewport_v;
-	float focal_length;
+	float			viewport_h;
+	float			viewport_w;
+	t_vec3			viewport_u;
+	t_vec3			viewport_v;
+	float			focal_length;
 
-}				t_data;
+}					t_data;
 
 /*		MAIN		*/
-int	error_message(char *str);
+int					error_message(char *str);
 
 /*		PUT PIXELS		*/
-t_ray send_cam_ray(t_data *data);
-int	rgb_to_int(t_colour c);
-void	put_pixel_to_img(t_img *img, int x, int y, int colour);
-void	put_pixels(t_data *data);
+t_ray				send_cam_ray(t_data *data, int x, int y);
+int					rgb_to_int(t_colour c);
+void				put_pixel_to_img(t_img *img, int x, int y, int colour);
+void				put_pixels(t_data *data);
 
 /*		VECTOR OPERATIONS		*/
-float	v_len(t_vec3 vec);
-void	v_add(t_vec3 *vec, t_vec3 vec2);
-void	v_subtract(t_vec3 *vec, t_vec3 vec2);
-void	v_scale(t_vec3 *vec, float c);
-float	v_dot(t_vec3 vec , t_vec3 vec2);
-t_vec3	v_cross(t_vec3 vec, t_vec3 vec2);
+float				v_len(t_vec3 vec);
+void				v_add(t_vec3 *vec, t_vec3 vec2);
+void				v_subtract(t_vec3 *vec, t_vec3 vec2);
+void				v_scale(t_vec3 *vec, float c);
+float				v_dot(t_vec3 vec, t_vec3 vec2);
+t_vec3				v_cross(t_vec3 vec, t_vec3 vec2);
 
 /*		SPHERE		*/
-float hit_sphere(t_ray r, t_sphere *sp);
+float				hit_sphere(t_ray r, t_sphere *sp);
 
 /*		ERRORS		*/
-int	error_message(char *str);
+int					error_message(char *str);
 
 /*		UTILS		*/
 
-
 /*		PARSING		*/
-int	rt_file(char *file);
+int					rt_file(char *file);
 
 /*		CLEANUP		*/
-int clean_exit(t_data *data);
-int key_hook(int k, t_data *data);
+int					clean_exit(t_data *data);
+int					key_hook(int k, t_data *data);
 
 #endif

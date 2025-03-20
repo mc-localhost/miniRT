@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:10 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/04/18 13:29:50 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/10 20:14:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "libft.h"
 
-float hit_sphere(t_ray r, t_sphere *sp)
+void	ft_putnbr_fd(int n, int fd)
 {
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	t_vec3	oc;
-
-	oc = sp->center;
-	v_subtract(&oc, r.start);
-	a = v_dot(r.dir, r.dir);
-	b = -2.0 * v_dot(r.dir, oc);
-	c = v_dot(oc, oc) - sp->r * sp->r;
-	d = b * b - 4 * a * c;
-	return (d);
+	if (n == -2147483648)
+	{
+		write(fd, "-2147483648", 11);
+		return ;
+	}
+	if (n < 0)
+	{
+		ft_putchar_fd ('-', fd);
+		n = -1 * n;
+	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd (n / 10, fd);
+	}
+	ft_putchar_fd (n % 10 + '0', fd);
 }
+
+// int	main(void)
+// {
+// 	ft_putnbr_fd(13425, 1);
+// 	ft_putnbr_fd(0, 1);
+// 	ft_putnbr_fd(-2460100, 1);
+// 	return (0);
+// }

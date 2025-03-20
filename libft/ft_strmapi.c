@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:10 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/10/11 16:59:07 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/15 13:24:49 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "libft.h"
 
-float hit_sphere(t_ray r, t_sphere *sp)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	float	d;
-	float	a;
-	float	b;
-	float	c;
-	t_vec3	oc;
+	char			*res;
+	unsigned int	len;
+	unsigned int	index;
 
-	oc = sp->center;
-	v_subtract(&oc, r.start);
-	a = v_dot(r.dir, r.dir);
-	b = -2.0 * v_dot(r.dir, oc);
-	c = v_dot(oc, oc) - sp->r * sp->r;
-	d = b * b - 4 * a * c;
-	return (d);
+	index = 0;
+	if (!s || !f)
+		return (NULL);
+	len = ft_strlen (s);
+	res = malloc ((len + 1) * sizeof (char));
+	if (!res)
+		return (NULL);
+	while (s[index])
+	{
+		res[index] = f (index, s[index]);
+		index++;
+	}
+	res[len] = '\0';
+	return (res);
 }
