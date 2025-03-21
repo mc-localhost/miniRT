@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 10:11:01 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 12:00:04 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,27 @@ static void	setup_scene(t_scene *scene)
 		.colour = (t_colour){255, 0, 225, 1.f}
 	};
 	// Sphere setup
-	scene->num_sp = 1;
+	scene->num_sp = 3;
 	scene->spheres = malloc(sizeof(t_sphere *) * scene->num_sp);
+
 	scene->spheres[0] = malloc(sizeof(t_sphere));
 	scene->spheres[0]->center = (t_vec3){0.f, 0.f, -20.f};
 	scene->spheres[0]->diameter = 10.f;
-	scene->spheres[0]->r = 5.f; // Radius is diameter / 2
-	scene->spheres[0]->colour = (t_colour){255, 0, 0, 1.f};
+	scene->spheres[0]->r = scene->spheres[0]->diameter / 2; // Radius is diameter / 2
+	scene->spheres[0]->colour = (t_colour){255, 56, 0, 1.f};
+
+	scene->spheres[1] = malloc(sizeof(t_sphere));
+	scene->spheres[1]->center = (t_vec3){10.f, 10.f, -40.f};
+	scene->spheres[1]->diameter = 18.f;
+	scene->spheres[1]->r = scene->spheres[1]->diameter / 2; // Radius is diameter / 2
+	scene->spheres[1]->colour = (t_colour){0, 255, 100, 1.f};
+
+	scene->spheres[2] = malloc(sizeof(t_sphere));
+	scene->spheres[2]->center = (t_vec3){0.f, -2.f, -10.f};
+	scene->spheres[2]->diameter = 2.f;
+	scene->spheres[2]->r = scene->spheres[2]->diameter / 2; // Radius is diameter / 2
+	scene->spheres[2]->colour = (t_colour){50, 100, 255, 1.f};
+
 	// Cylinder setup
 	scene->num_cy = 1;
 	scene->cylinders = malloc(sizeof(t_cylinder *) * scene->num_cy);

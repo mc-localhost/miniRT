@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 10:58:04 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:52:41 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ray	send_cam_ray(t_data *data, int x, int y)
 	t_vec3	pixel_center;
 
 	ray.start = data->scene->camera.view_point; //(t_vec3){0.f, 0.f, 0.f}; at the moment
-	//change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
+	// change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
 	pixel_center = data->pixel00_loc;
 	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_u, (float)x));
 	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_v, (float)y));
@@ -45,13 +45,47 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 	*(unsigned int *)dst = colour;
 }
 
+static t_colour	hit_spheres(t_data *data, t_ray ray)
+{
+	t_hit	hit;
+	t_hit	closest_hit;
+	int		i;
+
+	closest_hit.t = INFINITY;
+	closest_hit.colour = (t_colour){0, 0, 0, 0.f};
+	i = 0;
+	while (i < data->scene->num_sp)
+	{
+		hit.t = hit_sphere(ray, data->scene->spheres[i]);
+		if (!isnan(hit.t))
+		{
+			hit.normal = v_unit(v_subtract(v_at(ray, hit.t),
+						data->scene->spheres[i]->center));
+			if (v_dot(ray.dir, hit.normal) < 0)
+				hit.front_face = true;
+			else
+			{
+				hit.front_face = false;
+				v_scale_inplace(&hit.normal, -1.f);
+			}
+			hit.colour = data->scene->spheres[i]->colour;
+			hit.colour.r *= 0.5f * (hit.normal.x + 1);
+			hit.colour.g *= 0.5f * (hit.normal.y + 1);
+			hit.colour.b *= 0.5f * (hit.normal.z + 1);
+			if (hit.t < closest_hit.t)
+				closest_hit = hit;
+		}
+		i++;
+	}
+	return (closest_hit.colour);
+}
+
 void	put_pixels(t_data *data)
 {
 	t_colour	colour;
 	t_ray		ray;
 	int			x;
 	int			y;
-	t_hit		hit;
 
 	y = 0;
 	while (y < data->h)
@@ -62,28 +96,7 @@ void	put_pixels(t_data *data)
 		// while (x < 2)
 		{
 			ray = send_cam_ray(data, x, y);
-			// printf("ray dir ={%f, %f, %f}\n", ray.dir.x, ray.dir.y, ray.dir.z);
-			hit.t = hit_sphere(ray, data->scene->spheres[0]);
-			if (hit.t >= 0)
-			{
-				hit.normal = v_unit(v_subtract(v_at(ray, hit.t), data->scene->spheres[0]->center));
-				if (v_dot(ray.dir, hit.normal) < 0)
-					hit.front_face = true;
-				else
-				{
-					hit.front_face = false;
-					v_scale_inplace(&hit.normal, -1.f);
-				}
-				// colour = data->scene->spheres[0]->colour;
-				colour = (t_colour){0.5f * 255.999f * (hit.normal.x + 1), 0, 0, 1.f};
-				// printf("N ={%f, %f, %f}\n", N.x, N.y, N.z);
-				// printf("colour ={%d, %d, %d}\n", colour.r, colour.g, colour.b);
-				// printf("hit sphere at x=%d, y=%d with ray dir ={%f, %f, %f}\n", x, y, ray.dir.x, ray.dir.y, ray.dir.z);
-			}
-			else
-			{
-				colour = (t_colour){0, 0, 0, 0.f};
-			}
+			colour = hit_spheres(data, ray);
 			put_pixel_to_img(&data->img, x, y, rgb_to_int(colour));
 			x++;
 		}
