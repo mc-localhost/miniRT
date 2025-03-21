@@ -6,13 +6,13 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:42:49 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:00:27 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-void	free_scene(t_scene *scene) //maybe switch to garbage collector later
+void	free_scene(t_scene *scene) // maybe switch to garbage collector later
 {
 	int	i;
 
@@ -49,7 +49,7 @@ void	free_scene(t_scene *scene) //maybe switch to garbage collector later
 	free(scene);
 }
 
-int clean_exit(t_data *data)
+int	clean_exit(t_data *data)
 {
 	if (data->img.img)
 		mlx_destroy_image(data->mlx, data->img.img);
@@ -63,9 +63,11 @@ int clean_exit(t_data *data)
 	exit(0);
 }
 
-int key_hook(int k, t_data *data)
+/* 53 = ESC */
+
+int	key_hook(int k, t_data *data)
 {
-	if (k == 53) //ESC
+	if (k == 53)
 		clean_exit(data);
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

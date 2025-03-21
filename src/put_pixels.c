@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 13:56:40 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:09:09 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	put_pixels(t_data *data)
 			{
 				N = v_unit(v_subtract(v_at(ray, t), (t_vec3){0, 0, -1}));
 				// colour = data->scene->spheres[0]->colour;
-				// colour = (t_colour){ 0.5f * (N.x + 1), 0.5f * (N.y + 1), 0.5f * (N.z + 1), 1.f};
 				colour = (t_colour){0.5f * 255.999f * (N.x + 1), 0, 0, 1.f};
 				// printf("N ={%f, %f, %f}\n", N.x, N.y, N.z);
 				// printf("colour ={%d, %d, %d}\n", colour.r, colour.g, colour.b);

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 12:35:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:05:01 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ typedef struct s_data
 	float			viewport_w;
 	t_vec3			viewport_u;
 	t_vec3			viewport_v;
-	t_vec3			viewport_upper_left;
+	t_vec3			viewport_u_l;
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
-	float			focal_length;
+	float			focal_len;
 
 }					t_data;
 

@@ -6,7 +6,7 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/20 10:43:19 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/03/20 10:43:20 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/03/21 09:58:20 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT_FLAGS		= -Llibft
 MINILIBX		= mlx/libmlx.a
 MLX_FLAGS		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 LFLAGS			= $(MLX_FLAGS) $(LIBFT_FLAGS)
-FILES			= cleanup error main parse utils vector_ops put_pixels sphere
+FILES			= cleanup error main parse utils vector_ops vector_ops_inplace put_pixels sphere
 SRC_PATH		= ./src/
 OBJ_PATH 		= ./obj/
 SRC				= $(patsubst %, $(SRC_PATH)%.c, $(FILES))
