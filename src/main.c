@@ -12,96 +12,32 @@
 
 #include "../include/minirt.h"
 
-// some chatGPT filler while parsing is not there
-static void	setup_scene(t_scene *scene)
-{
-	// Ambient light setup
-	scene->a_light.colour = (t_colour){255, 255, 255, 0.2f};
-	// Camera setup
-	scene->camera = (t_camera){
-		.view_point = (t_vec3){-50.f, 0.f, 20.f},
-		.norm = (t_vec3){0.f, 0.f, 0.f},
-		.fov_deg = 70
-	};
-	scene->camera.fov_rad = scene->camera.fov_deg * (M_PI / 180.f);
-	// Light setup
-	scene->light = (t_light){
-		.pos = (t_vec3){-40.f, 0.f, 30.f},
-		.colour = (t_colour){255, 255, 255, 0.7f}
-	};
-	// Plane setup
-	scene->num_pl = 1;
-	scene->planes = malloc(sizeof(t_plane *) * scene->num_pl);
-	scene->planes[0] = malloc(sizeof(t_plane));
-	*scene->planes[0] = (t_plane){
-		.point = (t_vec3){0.f, 0.f, 0.f},
-		.norm = (t_vec3){0.f, 1.f, 0.f},
-		.colour = (t_colour){255, 0, 225, 1.f}
-	};
-	// Sphere setup
-	scene->num_sp = 3;
-	scene->spheres = malloc(sizeof(t_sphere *) * scene->num_sp);
-
-	scene->spheres[0] = malloc(sizeof(t_sphere));
-	scene->spheres[0]->center = (t_vec3){0.f, 0.f, -20.f};
-	scene->spheres[0]->diameter = 10.f;
-	scene->spheres[0]->r = scene->spheres[0]->diameter / 2; // Radius is diameter / 2
-	scene->spheres[0]->colour = (t_colour){255, 56, 0, 1.f};
-
-	scene->spheres[1] = malloc(sizeof(t_sphere));
-	scene->spheres[1]->center = (t_vec3){10.f, 10.f, -40.f};
-	scene->spheres[1]->diameter = 18.f;
-	scene->spheres[1]->r = scene->spheres[1]->diameter / 2; // Radius is diameter / 2
-	scene->spheres[1]->colour = (t_colour){0, 255, 100, 1.f};
-
-	scene->spheres[2] = malloc(sizeof(t_sphere));
-	scene->spheres[2]->center = (t_vec3){0.f, -2.f, -10.f};
-	scene->spheres[2]->diameter = 2.f;
-	scene->spheres[2]->r = scene->spheres[2]->diameter / 2; // Radius is diameter / 2
-	scene->spheres[2]->colour = (t_colour){50, 100, 255, 1.f};
-
-	// Cylinder setup
-	scene->num_cy = 1;
-	scene->cylinders = malloc(sizeof(t_cylinder *) * scene->num_cy);
-	scene->cylinders[0] = malloc(sizeof(t_cylinder));
-	*scene->cylinders[0] = (t_cylinder){
-		.center = (t_vec3){50.f, 0.f, 20.6},
-		.norm = (t_vec3){0.f, 0.f, 1.f},
-		.diameter = 14.2f,
-		.r = 7.1f,
-		.h = 21.42f,
-		.colour = (t_colour){10, 0, 255, 1.f}
-	};
-}
-
 static void	init_viewport(t_data *data)
 {
-	data->viewport_w = 2 * data->focal_len
-		* tanf(data->scene->camera.fov_rad / 2);
+	data->viewport_w = 2 * data->focal_len * tanf(data->scene->camera.fov_rad
+			/ 2);
 	data->viewport_h = data->viewport_w / data->aspect_ratio;
 	data->viewport_u = (t_vec3){data->viewport_w, 0, 0};
 	data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0};
-
-	printf("viewport_u ={%f, %f, %f}\n", data->viewport_u.x, data->viewport_u.y, data->viewport_u.z);
-
+	printf("viewport_u ={%f, %f, %f}\n", data->viewport_u.x, data->viewport_u.y,
+		data->viewport_u.z);
 	data->pixel_delta_u = v_scale(data->viewport_u, 1.f / data->w);
 	data->pixel_delta_v = v_scale(data->viewport_v, 1.f / data->h);
-
-	printf("pixel_delta_u ={%f, %f, %f}\n", data->pixel_delta_u.x, data->pixel_delta_u.y, data->pixel_delta_u.z);
-
-	data->scene->camera.view_point = (t_vec3){0.f, 0.f, 0.f}; //change later to account for direction
+	printf("pixel_delta_u ={%f, %f, %f}\n", data->pixel_delta_u.x,
+		data->pixel_delta_u.y, data->pixel_delta_u.z);
+	data->scene->camera.view_point = (t_vec3){0.f, 0.f, 0.f};
+		// change later to account for direction
 	data->viewport_u_l = data->scene->camera.view_point;
 	v_subtract_inplace(&data->viewport_u_l, (t_vec3){0, 0, data->focal_len});
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_u, 0.5f));
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_v, 0.5f));
-
-	printf("viewport_u_l ={%f, %f, %f}\n", data->viewport_u_l.x, data->viewport_u_l.y, data->viewport_u_l.z);
-
+	printf("viewport_u_l ={%f, %f, %f}\n", data->viewport_u_l.x,
+		data->viewport_u_l.y, data->viewport_u_l.z);
 	data->pixel00_loc = data->viewport_u_l;
 	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_u, 0.5f));
 	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_v, 0.5f));
-
-	printf("pixel00_loc ={%f, %f, %f}\n", data->pixel00_loc.x, data->pixel00_loc.y, data->pixel00_loc.z);
+	printf("pixel00_loc ={%f, %f, %f}\n", data->pixel00_loc.x,
+		data->pixel00_loc.y, data->pixel00_loc.z);
 }
 
 static int	init_data(t_data *data, char *file)
@@ -112,8 +48,8 @@ static int	init_data(t_data *data, char *file)
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
 	setup_scene(data->scene);
 	// --------------------------
-	data->w = WIDTH; //can be some check here actually
-	data->h = HEIGHT; //can be some check here actually
+	data->w = WIDTH;  // can be some check here actually
+	data->h = HEIGHT; // can be some check here actually
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_len = 1.f;
 	init_viewport(data);
@@ -122,7 +58,7 @@ static int	init_data(t_data *data, char *file)
 
 int	main(int argc, char *argv[])
 {
-	t_data		data;
+	t_data	data;
 
 	if (argc != 2)
 		return (error_message("Error\nput .rt path after ./miniRT\n"));

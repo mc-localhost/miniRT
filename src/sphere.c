@@ -12,7 +12,7 @@
 
 #include "../include/minirt.h"
 
-float	hit_sphere(t_ray r, t_sphere *sp)
+float	hit_sphere(t_ray r, t_obj *sp)
 {
 	float	d;
 	float	a;

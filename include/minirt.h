@@ -16,12 +16,19 @@
 # include "../libft/libft.h"
 # include <math.h>
 # include <mlx/mlx.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
 
 # define WIDTH 600
 # define HEIGHT 300
+
+typedef enum e_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER
+}					t_type;
 
 typedef struct s_vec3
 {
@@ -39,30 +46,30 @@ typedef struct s_colour
 	float			ratio;
 }					t_colour;
 
-typedef struct s_sphere
-{
-	t_vec3			center;
-	float			diameter;
-	float			r;
-	t_colour		colour;
-}					t_sphere;
+// typedef struct s_sphere
+// {
+// 	t_vec3			center;
+// 	float			diameter;
+// 	float			r;
+// 	t_colour		colour;
+// }					t_sphere;
 
-typedef struct s_plane
-{
-	t_vec3			point;
-	t_vec3			norm;
-	t_colour		colour;
-}					t_plane;
+// typedef struct s_plane
+// {
+// 	t_vec3			point;
+// 	t_vec3			norm;
+// 	t_colour		colour;
+// }					t_plane;
 
-typedef struct s_cylinder
-{
-	t_vec3			center;
-	t_vec3			norm;
-	float			diameter;
-	float			r;
-	float			h;
-	t_colour		colour;
-}					t_cylinder;
+// typedef struct s_cylinder
+// {
+// 	t_vec3			center;
+// 	t_vec3			norm;
+// 	float			diameter;
+// 	float			r;
+// 	float			h;
+// 	t_colour		colour;
+// }					t_cylinder;
 
 typedef struct s_camera
 {
@@ -96,17 +103,35 @@ typedef struct s_hit
 	t_vec3			normal;
 	float			t;
 	bool			front_face;
-	t_colour		colour; //maybe won't need
+	t_colour		colour;
 }					t_hit;
+
+typedef struct s_obj
+{
+	struct s_obj	*next;
+	t_type			type;
+	t_vec3			center;
+	t_colour		colour;
+	t_vec3			norm;
+	float			diameter;
+	float			r;
+	//	for cylinder
+	float			h;
+	//	for plane
+	t_vec3			point;
+
+}					t_obj;
 
 typedef struct s_scene
 {
-	t_sphere		**spheres;
-	t_cylinder		**cylinders;
-	t_plane			**planes;
-	int				num_sp;
-	int				num_cy;
-	int				num_pl;
+	// this should all be 1 list of all objects
+	// t_sphere		**spheres;
+	// t_cylinder		**cylinders;
+	// t_plane			**planes;
+	// int				num_sp;
+	// int				num_cy;
+	// int				num_pl;
+	t_obj			*objects;
 	t_camera		camera;
 	t_light			light;
 	t_ambient_light	a_light;
@@ -166,13 +191,17 @@ void				v_subtract_inplace(t_vec3 *vec, t_vec3 vec2);
 void				v_scale_inplace(t_vec3 *vec, float c);
 
 /*		SPHERE		*/
-float				hit_sphere(t_ray r, t_sphere *sp);
+float				hit_sphere(t_ray r, t_obj *sp);
 float				solve_quadratic(float d, float a, float b);
 
 /*		ERRORS		*/
 int					error_message(char *str);
 
 /*		UTILS		*/
+t_obj				*create_object(t_type type, t_vec3 center, t_colour colour,
+						t_vec3 norm, float diameter, float h);
+void				add_object(t_obj **list, t_obj *new_obj);
+void				setup_scene(t_scene *scene);
 
 /*		PARSING		*/
 int					rt_file(char *file);
