@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 10:05:01 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:06:40 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <mlx/mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 # define WIDTH 600
 # define HEIGHT 300
@@ -89,6 +90,15 @@ typedef struct s_ray
 	t_colour		colour;
 }					t_ray;
 
+typedef struct s_hit
+{
+	t_vec3			p;
+	t_vec3			normal;
+	float			t;
+	bool			front_face;
+	t_colour		colour; //maybe won't need
+}					t_hit;
+
 typedef struct s_scene
 {
 	t_sphere		**spheres;
@@ -120,7 +130,8 @@ typedef struct s_data
 	int				w;
 	int				h;
 	float			aspect_ratio;
-	//-------------
+	float			focal_len;
+	//------ viewport -------
 	float			viewport_h;
 	float			viewport_w;
 	t_vec3			viewport_u;
@@ -129,7 +140,6 @@ typedef struct s_data
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
-	float			focal_len;
 
 }					t_data;
 
