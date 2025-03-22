@@ -139,9 +139,14 @@ typedef struct s_data
 /*		MAIN		*/
 int					error_message(char *str);
 
+/*		COLOUR		*/
+int					rgb_to_int(t_colour c);
+t_colour			c_clamp(t_colour colour);
+t_colour			c_add(t_colour a, t_colour b);
+t_colour			c_scale(t_colour colour, float c);
+
 /*		PUT PIXELS		*/
 t_ray				send_cam_ray(t_data *data, int x, int y);
-int					rgb_to_int(t_colour c);
 void				put_pixel_to_img(t_img *img, int x, int y, int colour);
 void				put_pixels(t_data *data);
 

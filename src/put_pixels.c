@@ -25,16 +25,6 @@ t_ray	send_cam_ray(t_data *data, int x, int y)
 	return (ray);
 }
 
-int	rgb_to_int(t_colour c)
-{
-	int	res;
-
-	res = c.r << 16;
-	res += c.g << 8;
-	res += c.b;
-	return (res);
-}
-
 void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 {
 	char	*dst;
@@ -46,12 +36,34 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 static float	hit_object(t_ray ray, t_obj *curr)
 {
 	if (curr->type == SPHERE)
-		return hit_sphere(ray, curr);
+		return (hit_sphere(ray, curr));
 	// else if (curr->type == PLANE)
 	// 	return hit_plane(ray, curr);
 	// else if (curr->type == CYLINDER)
 	// 	return hit_cylinder(ray, curr);
 	return (nanf(""));
+}
+
+bool	in_shadow(t_data *data, t_vec3 point, t_light light)
+{
+	t_ray	shadow_ray;
+	t_obj	*curr;
+	float	light_distance;
+	float	t;
+
+	shadow_ray.start = point;
+	shadow_ray.dir = v_unit(v_subtract(light.pos, point));
+	light_distance = v_len(v_subtract(light.pos, point));
+
+	curr = data->scene->objects;
+	while (curr)
+	{
+		t = hit_object(shadow_ray, curr);
+		if (!isnan(t) && t > 0.001f && t < light_distance)
+			return (true);
+		curr = curr->next;
+	}
+	return (false);
 }
 
 static t_colour	hit_objects(t_data *data, t_ray ray)
@@ -68,7 +80,8 @@ static t_colour	hit_objects(t_data *data, t_ray ray)
 		hit.t = hit_object(ray, curr);
 		if (!isnan(hit.t))
 		{
-			hit.normal = v_unit(v_subtract(v_at(ray, hit.t), curr->center));
+			// move this inside hit function, hit function will return hit instance
+			hit.normal = v_unit(v_subtract(v_at(ray, hit.t), curr->center)); // sphere has center, so only works for it rn
 			if (v_dot(ray.dir, hit.normal) < 0)
 				hit.front_face = true;
 			else
@@ -77,13 +90,23 @@ static t_colour	hit_objects(t_data *data, t_ray ray)
 				v_scale_inplace(&hit.normal, -1.f);
 			}
 			hit.colour = curr->colour;
-			hit.colour.r *= 0.5f * (hit.normal.x + 1);
-			hit.colour.g *= 0.5f * (hit.normal.y + 1);
-			hit.colour.b *= 0.5f * (hit.normal.z + 1);
+			// hit.colour.r *= 0.5f * (hit.normal.x + 1);
+			// hit.colour.g *= 0.5f * (hit.normal.y + 1);
+			// hit.colour.b *= 0.5f * (hit.normal.z + 1);
 			if (hit.t < closest_hit.t)
 				closest_hit = hit;
 		}
 		curr = curr->next;
+	}
+	if (closest_hit.t != INFINITY)
+	{
+		t_vec3 light_dir = v_unit(v_subtract(data->scene->light.pos, v_at(ray, closest_hit.t)));
+		float light_intensity = fmax(0.0f, v_dot(closest_hit.normal, light_dir)) * data->scene->light.colour.ratio;
+
+		if (!in_shadow(data, v_at(ray, closest_hit.t), data->scene->light))
+			closest_hit.colour = c_scale(closest_hit.colour, light_intensity);
+		else
+			closest_hit.colour = c_scale(closest_hit.colour, light_intensity * 0.2f);
 	}
 	return (closest_hit.colour);
 }
