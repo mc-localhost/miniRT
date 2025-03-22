@@ -14,30 +14,32 @@
 
 static void	init_viewport(t_data *data)
 {
-	data->viewport_w = 2 * data->focal_len * tanf(data->scene->camera.fov_rad
+	t_vec3 u;
+	t_vec3 v;
+	t_vec3 w;
+	t_vec3 world_up;
+
+	world_up = (t_vec3){0.f, 1.f, 0.f};
+	w = data->scene->camera.norm; //check if normalised when parsing and apply v_unit if not
+	u = v_unit(v_cross(world_up, w));
+	v = v_cross(w, u);
+	data->viewport_h = 2 * data->focal_len * tanf(data->scene->camera.fov_rad
 			/ 2);
-	data->viewport_h = data->viewport_w / data->aspect_ratio;
-	data->viewport_u = (t_vec3){data->viewport_w, 0, 0};
-	data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0};
-	printf("viewport_u ={%f, %f, %f}\n", data->viewport_u.x, data->viewport_u.y,
-		data->viewport_u.z);
+	data->viewport_w = data->viewport_h * data->aspect_ratio;
+	// data->viewport_u = (t_vec3){data->viewport_w, 0, 0}; //viewport_width * u
+	// data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0}; // viewport_height * -v
+	data->viewport_u = v_scale(u, data->viewport_w);
+	data->viewport_v = v_scale(v, -1 * data->viewport_h);
 	data->pixel_delta_u = v_scale(data->viewport_u, 1.f / data->w);
 	data->pixel_delta_v = v_scale(data->viewport_v, 1.f / data->h);
-	printf("pixel_delta_u ={%f, %f, %f}\n", data->pixel_delta_u.x,
-		data->pixel_delta_u.y, data->pixel_delta_u.z);
-	data->scene->camera.view_point = (t_vec3){0.f, 0.f, 0.f};
-		// change later to account for direction
 	data->viewport_u_l = data->scene->camera.view_point;
-	v_subtract_inplace(&data->viewport_u_l, (t_vec3){0, 0, data->focal_len});
+	// v_subtract_inplace(&data->viewport_u_l, (t_vec3){0, 0, data->focal_len}); // (focal_length * w) for positioning
+	v_subtract_inplace(&data->viewport_u_l, v_scale(w, data->focal_len));
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_u, 0.5f));
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_v, 0.5f));
-	printf("viewport_u_l ={%f, %f, %f}\n", data->viewport_u_l.x,
-		data->viewport_u_l.y, data->viewport_u_l.z);
 	data->pixel00_loc = data->viewport_u_l;
 	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_u, 0.5f));
 	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_v, 0.5f));
-	printf("pixel00_loc ={%f, %f, %f}\n", data->pixel00_loc.x,
-		data->pixel00_loc.y, data->pixel00_loc.z);
 }
 
 static int	init_data(t_data *data, char *file)

@@ -154,14 +154,14 @@ typedef struct s_data
 	t_scene			*scene;
 	int				w;
 	int				h;
+	//------ viewport -------
 	float			aspect_ratio;
 	float			focal_len;
-	//------ viewport -------
-	float			viewport_h;
-	float			viewport_w;
-	t_vec3			viewport_u;
-	t_vec3			viewport_v;
-	t_vec3			viewport_u_l;
+	float			viewport_h; //can be a var in function
+	float			viewport_w; //can be a var in function
+	t_vec3			viewport_u; //can be a var in function
+	t_vec3			viewport_v; //can be a var in function
+	t_vec3			viewport_u_l; //can be a var in function
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;

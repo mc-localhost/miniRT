@@ -51,7 +51,7 @@ float	v_len(t_vec3 vec)
 
 t_vec3	v_unit(t_vec3 vec)
 {
-	return (v_scale(vec, 1.f / v_len(vec)));
+	return (v_scale(vec, 1.f / v_len(vec))); //add 0 check to avoid division by 0
 }
 
 t_vec3	v_at(t_ray ray, float t)

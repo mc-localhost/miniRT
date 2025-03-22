@@ -51,8 +51,8 @@ void	setup_scene(t_scene *scene) //some chatGPT filler while parsing is not ther
 	// Ambient light setup
 	scene->a_light.colour = (t_colour){255, 255, 255, 0.2f};
 	// Camera setup
-	scene->camera = (t_camera){.view_point = (t_vec3){-50.f, 0.f, 20.f},
-		.norm = (t_vec3){0.f, 0.f, 0.f}, .fov_deg = 70};
+	scene->camera = (t_camera){.view_point = (t_vec3){0.f, 0.f, 0.f},
+		.norm = (t_vec3){0.f, 0.f, 1.f}, .fov_deg = 90};
 	scene->camera.fov_rad = scene->camera.fov_deg * (M_PI / 180.f);
 	// Light setup
 	scene->light = (t_light){.pos = (t_vec3){-40.f, 0.f, 30.f},
@@ -63,14 +63,14 @@ void	setup_scene(t_scene *scene) //some chatGPT filler while parsing is not ther
 	add_object(&scene->objects, create_object(PLANE, (t_vec3){0.f, 0.f, 0.f},
 			(t_colour){255, 0, 225, 1.f}, (t_vec3){0.f, 1.f, 0.f}, 0.f, 0.f));
 	// Sphere setups
-	add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.f, 0.f, -20.f},
-			(t_colour){255, 56, 0, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 10.f, 0.f));
-	add_object(&scene->objects, create_object(SPHERE, (t_vec3){10.f, 10.f,
-			-40.f}, (t_colour){0, 255, 100, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 18.f,
+	add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.7f, 0.f, -1.f},
+			(t_colour){255, 56, 0, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 1.4f, 0.f));
+	add_object(&scene->objects, create_object(SPHERE, (t_vec3){-0.7f, 0.f,
+			-1.f}, (t_colour){0, 255, 100, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 1.4f,
 			0.f));
-	add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.f, -2.f,
-			-10.f}, (t_colour){50, 100, 255, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 2.f,
-			0.f));
+	// add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.f, -2.f,
+	// 		-2.f}, (t_colour){50, 100, 255, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 2.f,
+	// 		0.f));
 	// Cylinder setup
 	add_object(&scene->objects, create_object(CYLINDER, (t_vec3){50.f, 0.f,
 			20.6}, (t_colour){10, 0, 255, 1.f}, (t_vec3){0.f, 0.f, 1.f}, 14.2f,
