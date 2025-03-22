@@ -79,40 +79,47 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 // 	return (closest_hit.colour);
 // }
 
+static float	hit_object(t_ray ray, t_obj *curr)
+{
+	if (curr->type == SPHERE)
+		return hit_sphere(ray, curr);
+	// else if (curr->type == PLANE)
+	// 	return hit_plane(ray, curr);
+	// else if (curr->type == CYLINDER)
+	// 	return hit_cylinder(ray, curr);
+	return (nanf(""));
+}
+
 static t_colour	hit_objects(t_data *data, t_ray ray)
 {
 	t_hit	hit;
 	t_hit	closest_hit;
-	t_obj	*current;
+	t_obj	*curr;
 
 	closest_hit.t = INFINITY;
 	closest_hit.colour = (t_colour){0, 0, 0, 0.f};
-	current = data->scene->objects;
-	while (current)
+	curr = data->scene->objects;
+	while (curr)
 	{
-		if (current->type == SPHERE)
+		hit.t = hit_object(ray, curr);
+		if (!isnan(hit.t))
 		{
-			hit.t = hit_sphere(ray, current);
-			if (!isnan(hit.t))
+			hit.normal = v_unit(v_subtract(v_at(ray, hit.t), curr->center));
+			if (v_dot(ray.dir, hit.normal) < 0)
+				hit.front_face = true;
+			else
 			{
-				hit.normal = v_unit(v_subtract(v_at(ray, hit.t),
-							current->center));
-				if (v_dot(ray.dir, hit.normal) < 0)
-					hit.front_face = true;
-				else
-				{
-					hit.front_face = false;
-					v_scale_inplace(&hit.normal, -1.f);
-				}
-				hit.colour = current->colour;
-				hit.colour.r *= 0.5f * (hit.normal.x + 1);
-				hit.colour.g *= 0.5f * (hit.normal.y + 1);
-				hit.colour.b *= 0.5f * (hit.normal.z + 1);
-				if (hit.t < closest_hit.t)
-					closest_hit = hit;
+				hit.front_face = false;
+				v_scale_inplace(&hit.normal, -1.f);
 			}
+			hit.colour = curr->colour;
+			hit.colour.r *= 0.5f * (hit.normal.x + 1);
+			hit.colour.g *= 0.5f * (hit.normal.y + 1);
+			hit.colour.b *= 0.5f * (hit.normal.z + 1);
+			if (hit.t < closest_hit.t)
+				closest_hit = hit;
 		}
-		current = current->next;
+		curr = curr->next;
 	}
 	return (closest_hit.colour);
 }
