@@ -17,8 +17,7 @@ t_ray	send_cam_ray(t_data *data, int x, int y)
 	t_ray	ray;
 	t_vec3	pixel_center;
 
-	ray.start = data->scene->camera.view_point; //{0, 0, 0}; at the moment
-	// change later as in https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera
+	ray.start = data->scene->camera.view_point;
 	pixel_center = data->pixel00_loc;
 	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_u, (float)x));
 	v_add_inplace(&pixel_center, v_scale(data->pixel_delta_v, (float)y));
@@ -43,41 +42,6 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 	dst = img->addr + (y * img->size_l + x * (img->bpp / 8));
 	*(unsigned int *)dst = colour;
 }
-
-// static t_colour	hit_spheres(t_data *data, t_ray ray)
-// {
-// 	t_hit	hit;
-// 	t_hit	closest_hit;
-// 	int		i;
-
-// 	closest_hit.t = INFINITY;
-// 	closest_hit.colour = (t_colour){0, 0, 0, 0.f};
-// 	i = 0;
-// 	while (i < data->scene->num_sp)
-// 	{
-// 		hit.t = hit_sphere(ray, data->scene->spheres[i]);
-// 		if (!isnan(hit.t))
-// 		{
-// 			hit.normal = v_unit(v_subtract(v_at(ray, hit.t),
-// 						data->scene->spheres[i]->center));
-// 			if (v_dot(ray.dir, hit.normal) < 0)
-// 				hit.front_face = true;
-// 			else
-// 			{
-// 				hit.front_face = false;
-// 				v_scale_inplace(&hit.normal, -1.f);
-// 			}
-// 			hit.colour = data->scene->spheres[i]->colour;
-// 			hit.colour.r *= 0.5f * (hit.normal.x + 1);
-// 			hit.colour.g *= 0.5f * (hit.normal.y + 1);
-// 			hit.colour.b *= 0.5f * (hit.normal.z + 1);
-// 			if (hit.t < closest_hit.t)
-// 				closest_hit = hit;
-// 		}
-// 		i++;
-// 	}
-// 	return (closest_hit.colour);
-// }
 
 static float	hit_object(t_ray ray, t_obj *curr)
 {

@@ -26,14 +26,11 @@ static void	init_viewport(t_data *data)
 	data->viewport_h = 2 * data->focal_len * tanf(data->scene->camera.fov_rad
 			/ 2);
 	data->viewport_w = data->viewport_h * data->aspect_ratio;
-	// data->viewport_u = (t_vec3){data->viewport_w, 0, 0}; //viewport_width * u
-	// data->viewport_v = (t_vec3){0, -1 * data->viewport_h, 0}; // viewport_height * -v
 	data->viewport_u = v_scale(u, data->viewport_w);
 	data->viewport_v = v_scale(v, -1 * data->viewport_h);
 	data->pixel_delta_u = v_scale(data->viewport_u, 1.f / data->w);
 	data->pixel_delta_v = v_scale(data->viewport_v, 1.f / data->h);
 	data->viewport_u_l = data->scene->camera.view_point;
-	// v_subtract_inplace(&data->viewport_u_l, (t_vec3){0, 0, data->focal_len}); // (focal_length * w) for positioning
 	v_subtract_inplace(&data->viewport_u_l, v_scale(w, data->focal_len));
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_u, 0.5f));
 	v_subtract_inplace(&data->viewport_u_l, v_scale(data->viewport_v, 0.5f));
@@ -50,8 +47,8 @@ static int	init_data(t_data *data, char *file)
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
 	setup_scene(data->scene);
 	// --------------------------
-	data->w = WIDTH;  // can be some check here actually
-	data->h = HEIGHT; // can be some check here actually
+	data->w = WIDTH;  // can be some check here actually, at least for 0
+	data->h = HEIGHT; // can be some check here actually, at least for 0
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_len = 1.f;
 	init_viewport(data);

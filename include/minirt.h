@@ -46,31 +46,6 @@ typedef struct s_colour
 	float			ratio;
 }					t_colour;
 
-// typedef struct s_sphere
-// {
-// 	t_vec3			center;
-// 	float			diameter;
-// 	float			r;
-// 	t_colour		colour;
-// }					t_sphere;
-
-// typedef struct s_plane
-// {
-// 	t_vec3			point;
-// 	t_vec3			norm;
-// 	t_colour		colour;
-// }					t_plane;
-
-// typedef struct s_cylinder
-// {
-// 	t_vec3			center;
-// 	t_vec3			norm;
-// 	float			diameter;
-// 	float			r;
-// 	float			h;
-// 	t_colour		colour;
-// }					t_cylinder;
-
 typedef struct s_camera
 {
 	t_vec3			view_point;
@@ -124,13 +99,6 @@ typedef struct s_obj
 
 typedef struct s_scene
 {
-	// this should all be 1 list of all objects
-	// t_sphere		**spheres;
-	// t_cylinder		**cylinders;
-	// t_plane			**planes;
-	// int				num_sp;
-	// int				num_cy;
-	// int				num_pl;
 	t_obj			*objects;
 	t_camera		camera;
 	t_light			light;
