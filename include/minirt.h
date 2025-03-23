@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:57:47 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:12:28 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,11 @@ void				v_subtract_inplace(t_vec3 *vec, t_vec3 vec2);
 void				v_scale_inplace(t_vec3 *vec, float c);
 
 /*		SPHERE		*/
-float				hit_sphere(t_ray r, t_obj *sp);
+t_hit				hit_sphere(t_ray r, t_obj *sp);
 float				solve_quadratic(float d, float a, float b);
+
+/*		PLANE		*/
+t_hit				hit_plane(t_ray r, t_obj *pl);
 
 /*		ERRORS		*/
 int					error_message(char *str);

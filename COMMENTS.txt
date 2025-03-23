@@ -1,7 +1,7 @@
 to launch:
 make re && ./miniRT .rt
 
-will render a scene with 3 spheres, camera is looking at -z, some light and shadows are there
+will render a scene with 3 spheres and 2 planes, camera is looking at -z, some light and shadows are there
 ESC and exit button are already working
 
 folders:

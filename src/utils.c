@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 12:13:01 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:51:15 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_obj	*create_object(t_type type, t_vec3 center, t_colour colour, t_vec3 norm,
 		return (NULL);
 	obj->type = type;
 	obj->center = center;
+	obj->point = center;
 	obj->colour = colour;
 	obj->norm = norm;
 	obj->diameter = diameter;
@@ -51,30 +52,44 @@ void	setup_scene(t_scene *scene) //some chatGPT filler while parsing is not ther
 	// Ambient light setup
 	scene->a_light = (t_colour){150, 120, 100, 0.2f};
 	// Camera setup
-	scene->camera = (t_camera){.view_point = (t_vec3){0.f, 0.f, 1.f},
+	scene->camera = (t_camera){.view_point = (t_vec3){0.f, 0.f, 2.f},
 		.norm = (t_vec3){0.f, 0.f, 1.f}, .fov_deg = 70};
 	scene->camera.fov_rad = scene->camera.fov_deg * (M_PI / 180.f);
 	// Light setup
-	scene->light = (t_light){.pos = (t_vec3){0.f, 10.f, 5.f},
-		.colour = (t_colour){255, 255, 255, 0.7f}};
+	scene->light = (t_light){.pos = (t_vec3){-3.f, 4.f, 2.f},
+		.colour = (t_colour){255, 255, 255, 0.8f}};
 	// Initialize object list
 	scene->objects = NULL;
 	// Plane setup
-	add_object(&scene->objects, create_object(PLANE, (t_vec3){0.f, 0.f, 0.f},
-			(t_colour){255, 0, 225, 1.f}, (t_vec3){0.f, 1.f, 0.f}, 0.f, 0.f));
+	add_object(&scene->objects, create_object(
+		PLANE,
+		(t_vec3){0.f, -3.f, -15.f},  // Position it below the view
+		(t_colour){150, 150, 150, 0.8f},  // Greyish color
+		(t_vec3){0.f, 1.f, 0.f},  // Normal pointing upwards (horizontal plane)
+		0.f,
+		0.f
+	));
+	add_object(&scene->objects, create_object(
+		PLANE,
+		(t_vec3){0.f, 0.f, -20.f},  // A bit further back
+		(t_colour){205, 215, 202, 0.8f},  // Soft light grey color
+		(t_vec3){0.f, 0.f, 1.f},  // Normal facing towards camera (vertical plane)
+		0.f,
+		0.f
+	));
 	// Sphere setups
 	add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.f, 0.f, -10.f},
-			(t_colour){255, 56, 0, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 8.f, 0.f));
+			(t_colour){219, 186, 4,  1.f}, (t_vec3){0.f, 0.f, 0.f}, 8.f, 0.f));
 	add_object(&scene->objects, create_object(SPHERE, (t_vec3){-2.f, 0.f,
-			-5.f}, (t_colour){0, 255, 100, 1.f}, (t_vec3){0.f, 10.f, 0.f}, 6.f,
+			-5.f}, (t_colour){201, 213, 255, 1.f}, (t_vec3){0.f, 10.f, 0.f}, 6.f,
 			0.f));
 	add_object(&scene->objects, create_object(SPHERE, (t_vec3){0.f, -2.f,
-			-2.f}, (t_colour){50, 100, 255, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 2.f,
+			-2.f}, (t_colour){219, 38, 53, 1.f}, (t_vec3){0.f, 0.f, 0.f}, 2.f,
 			0.f));
 	// Cylinder setup
-	add_object(&scene->objects, create_object(CYLINDER, (t_vec3){50.f, 0.f,
-			20.6}, (t_colour){10, 0, 255, 1.f}, (t_vec3){0.f, 0.f, 1.f}, 14.2f,
-			21.42f));
+	// add_object(&scene->objects, create_object(CYLINDER, (t_vec3){50.f, 0.f,
+	// 		20.6}, (t_colour){10, 0, 255, 1.f}, (t_vec3){0.f, 0.f, 1.f}, 14.2f,
+	// 		21.42f));
 }
 
 /*		PREV VERSION	*/

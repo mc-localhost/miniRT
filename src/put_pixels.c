@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 12:12:37 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:49:04 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,21 @@ void	put_pixel_to_img(t_img *img, int x, int y, int colour)
 	*(unsigned int *)dst = colour;
 }
 
-static float	hit_object(t_ray ray, t_obj *curr)
+static t_hit	hit_object(t_ray ray, t_obj *curr)
 {
+	t_hit	hit;
+
 	if (curr->type == SPHERE)
-		return (hit_sphere(ray, curr));
-	// else if (curr->type == PLANE)
-	// 	return hit_plane(ray, curr);
+		hit = hit_sphere(ray, curr);
+	else if (curr->type == PLANE)
+		hit = hit_plane(ray, curr);
 	// else if (curr->type == CYLINDER)
-	// 	return hit_cylinder(ray, curr);
-	return (nanf(""));
+	// 	hit = hit_cylinder(ray, curr);
+	hit.front_face = v_dot(ray.dir, hit.normal) < 0;
+	if (!hit.front_face)
+		v_scale_inplace(&hit.normal, -1.f); //remove this thing to make plane not render from the back
+	hit.colour = curr->colour;
+	return (hit);
 }
 
 static bool	in_shadow(t_data *data, t_vec3 point, t_light light)
@@ -58,7 +64,7 @@ static bool	in_shadow(t_data *data, t_vec3 point, t_light light)
 	curr = data->scene->objects;
 	while (curr)
 	{
-		t = hit_object(shadow_ray, curr);
+		t = hit_object(shadow_ray, curr).t;
 		if (!isnan(t) && t > 0.001f && t < light_distance)
 			return (true);
 		curr = curr->next;
@@ -77,22 +83,9 @@ static t_colour	hit_objects(t_data *data, t_ray ray)
 	curr = data->scene->objects;
 	while (curr)
 	{
-		hit.t = hit_object(ray, curr);
-		if (!isnan(hit.t))
+		hit = hit_object(ray, curr);
+		if (!isnan(hit.t) && hit.t >= 1e-6)
 		{
-			// move this inside hit function, hit function will return hit instance
-			hit.normal = v_unit(v_subtract(v_at(ray, hit.t), curr->center)); // sphere has center, so only works for it rn
-			if (v_dot(ray.dir, hit.normal) < 0)
-				hit.front_face = true;
-			else
-			{
-				hit.front_face = false;
-				v_scale_inplace(&hit.normal, -1.f);
-			}
-			hit.colour = curr->colour;
-			// hit.colour.r *= 0.5f * (hit.normal.x + 1);
-			// hit.colour.g *= 0.5f * (hit.normal.y + 1);
-			// hit.colour.b *= 0.5f * (hit.normal.z + 1);
 			if (hit.t < closest_hit.t)
 				closest_hit = hit;
 		}
