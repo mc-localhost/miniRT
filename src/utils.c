@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 12:08:17 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:13:01 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_object(t_obj **list, t_obj *new_obj)
 void	setup_scene(t_scene *scene) //some chatGPT filler while parsing is not there
 {
 	// Ambient light setup
-	scene->a_light = (t_colour){150, 120, 100, 0.9f};
+	scene->a_light = (t_colour){150, 120, 100, 0.2f};
 	// Camera setup
 	scene->camera = (t_camera){.view_point = (t_vec3){0.f, 0.f, 1.f},
 		.norm = (t_vec3){0.f, 0.f, 1.f}, .fov_deg = 70};

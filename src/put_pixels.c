@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:57:09 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 12:12:37 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ static t_colour	hit_objects(t_data *data, t_ray ray)
 	{
 		t_vec3 light_dir = v_unit(v_subtract(data->scene->light.pos, v_at(ray, closest_hit.t)));
 		float light_intensity = fmax(0.0f, v_dot(closest_hit.normal, light_dir)) * data->scene->light.colour.ratio;
-		add_ambient(&closest_hit.colour, data->scene->a_light);
 		if (!in_shadow(data, v_at(ray, closest_hit.t), data->scene->light))
 			closest_hit.colour = c_scale(closest_hit.colour, light_intensity);
 		else
 			closest_hit.colour = c_scale(closest_hit.colour, light_intensity * 0.2f);
+		add_ambient(&closest_hit.colour, data->scene->a_light);
 	}
 	return (closest_hit.colour);
 }
