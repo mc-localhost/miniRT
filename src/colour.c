@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:07:28 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:07:30 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:56:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,21 @@ t_colour	c_scale(t_colour colour, float c)
 	res.g = colour.g * c;
 	res.b = colour.b * c;
 	return (c_clamp(res));
+}
+
+// t_colour	add_ambient(t_colour obj, t_colour a_light)
+// {
+// 	t_colour	res;
+
+// 	res.r = obj.r * (1.0f - a_light.ratio) + a_light.r * a_light.ratio;
+// 	res.g = obj.g * (1.0f - a_light.ratio) + a_light.g * a_light.ratio;
+// 	res.b = obj.b * (1.0f - a_light.ratio) + a_light.b * a_light.ratio;
+// 	return (res);
+// }
+
+void	add_ambient(t_colour *obj, t_colour a_light)
+{
+	obj->r = obj->r * (1.0f - a_light.ratio) + a_light.r * a_light.ratio;
+	obj->g = obj->g * (1.0f - a_light.ratio) + a_light.g * a_light.ratio;
+	obj->b = obj->b * (1.0f - a_light.ratio) + a_light.b * a_light.ratio;
 }

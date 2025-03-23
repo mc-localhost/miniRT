@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:37:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:57:47 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ typedef struct s_light
 	t_colour		colour;
 }					t_light;
 
-typedef struct s_ambient_light
-{
-	t_colour		colour;
-}					t_ambient_light;
+// typedef struct s_ambient_light
+// {
+// 	t_colour		colour;
+// }					t_ambient_light;
 
 typedef struct s_ray
 {
@@ -102,7 +102,7 @@ typedef struct s_scene
 	t_obj			*objects;
 	t_camera		camera;
 	t_light			light;
-	t_ambient_light	a_light;
+	t_colour		a_light;
 }					t_scene;
 
 typedef struct s_img
@@ -144,6 +144,7 @@ int					rgb_to_int(t_colour c);
 t_colour			c_clamp(t_colour colour);
 t_colour			c_add(t_colour a, t_colour b);
 t_colour			c_scale(t_colour colour, float c);
+void				add_ambient(t_colour *obj, t_colour a_light);
 
 /*		PUT PIXELS		*/
 t_ray				send_cam_ray(t_data *data, int x, int y);
