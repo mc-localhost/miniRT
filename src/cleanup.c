@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 10:00:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:07:50 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@
 
 static void	free_scene(t_scene *scene) // maybe switch to garbage collector later
 {
-	t_obj *current;
-	t_obj *next;
+	t_obj	*current;
+	t_obj	*next;
 
 	current = scene->objects;
 	while (current)

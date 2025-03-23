@@ -6,14 +6,14 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/20 10:43:13 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:34:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
 t_obj	*create_object(t_type type, t_vec3 center, t_colour colour, t_vec3 norm,
-		float diameter, float h)
+		float diameter, float h) //won't pass the norm with this num of args, can be a separate function for each type of object
 {
 	t_obj	*obj;
 

@@ -1,0 +1,41 @@
+to launch:
+make re && ./miniRT .rt
+
+will render a scene with 3 spheres, camera is looking at -z, some light and shadows are there
+ESC and exit button are already working
+
+folders:
+- gnl folder is just there, get_next_line isn't included in libft or anywhere else
+- mlx comes from minilibx_mms_20200219_beta.tgz
+- every other source file is in src folder, rt folder is for input
+- include is for header files
+
+files:
+- parse.c is for parsing, only has .rt file extension check for now
+- utils.c has filler functions by chatgpt for populating structs and playing around with data
+- cleanup.c has clean_exit to free everything before ending the program (called on key stroke and exit button)
+- sphere, cylinder, plane are files for functions for solving equations to determine
+the intersection point between a ray and an object
+- put_pixels.c is doing the actual rendering
+- main.c has initialising functions. parsing should go into init_data
+width and height are determined in the header minirt.h
+# define WIDTH 600
+# define HEIGHT 300
+
+structs:
+everything parsed from input .rt goes into data->scene
+typedef struct s_scene
+{
+	t_obj			*objects; - arbitrary number of spheres, planes, cylinders
+	t_camera		camera; - must be only 1 camera
+	t_light			light; - must be only 1 light
+	t_ambient_light	a_light; - must be only 1 ambient light
+}					t_scene;
+
+we distinguish between objects using their type 
+typedef enum e_type
+{
+	SPHERE,
+	PLANE,
+	CYLINDER
+}					t_type;

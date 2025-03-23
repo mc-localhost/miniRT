@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 11:52:41 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:38:01 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static float	hit_object(t_ray ray, t_obj *curr)
 	return (nanf(""));
 }
 
-bool	in_shadow(t_data *data, t_vec3 point, t_light light)
+static bool	in_shadow(t_data *data, t_vec3 point, t_light light)
 {
 	t_ray	shadow_ray;
 	t_obj	*curr;

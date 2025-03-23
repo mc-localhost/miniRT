@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/21 12:00:04 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/03/23 11:08:18 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	init_viewport(t_data *data)
 {
-	t_vec3 u;
-	t_vec3 v;
-	t_vec3 w;
-	t_vec3 world_up;
+	t_vec3	u;
+	t_vec3	v;
+	t_vec3	w;
+	t_vec3	world_up;
 
 	world_up = (t_vec3){0.f, 1.f, 0.f};
 	w = data->scene->camera.norm; //check if normalised when parsing and apply v_unit if not
