@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:08:18 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:35:16 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ static int	init_data(t_data *data, char *file)
 {
 	if (rt_file(file) != 0)
 		return (error_message("Error\nwrong file extension: must be .rt"));
-	//----- parsing filler ------
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
-	setup_scene(data->scene);
-	// --------------------------
+	if (!data->scene)
+		return (error_message("Error\nmemory allocation failed"));
+	parse_scene_file(file, data->scene);
+	// setup_scene(data->scene);
 	data->w = WIDTH;  // can be some check here actually, at least for 0
 	data->h = HEIGHT; // can be some check here actually, at least for 0
 	data->aspect_ratio = (float)data->w / data->h;

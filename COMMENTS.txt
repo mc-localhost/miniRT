@@ -39,3 +39,4 @@ typedef enum e_type
 	PLANE,
 	CYLINDER
 }					t_type;
+

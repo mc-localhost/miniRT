@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
+#    By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/13 13:17:30 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/16 14:05:43 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/04/03 10:12:36 by ykhattab         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ AR = ar
 ARFLAGS = rcs
 RM = rm -f
 SRC = ft_atoi.c \
+ft_atof.c \
 ft_strlen.c \
 ft_itoa.c \
 ft_substr.c \

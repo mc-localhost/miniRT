@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 15:12:28 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/04 22:33:21 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
 
 # include "../libft/libft.h"
 # include <math.h>
@@ -19,9 +20,12 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 # define WIDTH 600
 # define HEIGHT 300
+# define INVALID_VEC3 ((t_vec3){NAN, NAN, NAN})
+# define INVALID_COL (t_colour){-1, -1, -1, -1.0f}
 
 typedef enum e_type
 {
@@ -182,6 +186,28 @@ void				setup_scene(t_scene *scene);
 
 /*		PARSING		*/
 int					rt_file(char *file);
+int					open_file(const char *filename);
+void				parse_scene_file(const char *filename, t_scene *scene);
+
+// parse_vector_color.c
+t_vec3				parse_vector(char *string);
+t_colour			parse_colour(char *string);
+bool				validate_colour(t_colour colour);
+bool				is_valid_component(char *str, int *out);
+void				free_split(char **split);
+
+// parse_objects.c
+void				parse_sphere(char *line, t_scene *scene);
+void				parse_plane(char *line, t_scene *scene);
+void				parse_cylinder(char *line, t_scene *scene);
+void				parse_ambient(char *line, t_scene *scene);
+void				parse_light(char *line, t_scene *scene);
+
+// parse_scene.c
+void				parse_line(char *line, t_scene *scene);
+void				parse_camera(char *line, t_scene *scene);
+bool				is_number(char *str);
+bool				is_valid_ratio(float f);
 
 /*		CLEANUP		*/
 int					clean_exit(t_data *data);
