@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 14:52:04 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:37:04 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	init_data(t_data *data, char *file)
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
 	if (!data->scene)
 		return (error_message("Error\nmemory allocation failed"));
-	parse_scene_file(file, data->scene);
+	if (parse_scene_file(file, data->scene))
+		return error_message("Error parsing the file");
+	
 	// setup_scene(data->scene);
 	data->w = WIDTH;  // can be some check here actually, at least for 0
 	data->h = HEIGHT; // can be some check here actually, at least for 0

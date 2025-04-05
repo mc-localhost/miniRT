@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 23:49:12 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/04 21:29:13 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:29:00 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,16 @@ t_colour parse_colour(char *string)
 {
     t_colour c;
     char **s;
-    char *trimmed = ft_strdup(string); // had to trim it bec. the last '\n' char gave me a headache
-    
-    if (!trimmed)
-        return (INVALID_COL);    
-    int len = ft_strlen(trimmed);
-    while (len > 0 && (trimmed[len-1] == ' ' || trimmed[len-1] == '\n'))
-        trimmed[--len] = '\0';
+    char *trimmed = ft_strtrim(string, " \n");
     s = ft_split(trimmed, ',');
     free(trimmed);
-    if (!s || !s[0] || !s[1] || !s[2] || s[3] ||
-        !is_valid_component(s[0], &c.r) ||
-        !is_valid_component(s[1], &c.g) ||
-        !is_valid_component(s[2], &c.b))
+    if (!s || !s[0] || !s[1] || !s[2] || s[3]
+		|| !is_valid_component(s[0], &c.r)
+		|| !is_valid_component(s[1], &c.g)
+		|| !is_valid_component(s[2], &c.b))
     {
         if (s) free_split(s);
-        return (INVALID_COL);
+        	return (INVALID_COL);
     }
     free_split(s);
     return (c);

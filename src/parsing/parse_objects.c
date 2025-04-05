@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/04 22:31:21 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:49:38 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	**validate_params(char *line, int param_count, char *err_msg)
 	return (s);
 }
 
-static t_obj	*parse_obj_params(char **s, t_type type, __attribute__((unused))t_scene *scene)
+static t_obj	*parse_obj_params(char **s, t_type type) // review the error handling here after the changed parent function
 {
 	t_obj	*obj;
 
@@ -58,84 +58,109 @@ static t_obj	*parse_obj_params(char **s, t_type type, __attribute__((unused))t_s
 	return (obj);
 }
 
-void	parse_sphere(char *line, t_scene *scene)
+int	parse_sphere(char *line, t_scene *scene)
 {
 	char	**s;
 	t_obj	*new_obj;
 
 	s = validate_params(line, 4, "Error: Sphere line missing parameters");
 	if (!s)
-		return ;
-	new_obj = parse_obj_params(s, SPHERE, scene);
-	if (new_obj)
-		add_object(&scene->objects, new_obj);
+		return (EXIT_FAILURE);
+	new_obj = parse_obj_params(s, SPHERE);
+	if (!new_obj)
+	{
+		free_split(s);
+		return (EXIT_FAILURE);
+	}
+	add_object(&scene->objects, new_obj);
 	free_split(s);
+	return (EXIT_SUCCESS);
 }
 
-void	parse_plane(char *line, t_scene *scene)
+int	parse_plane(char *line, t_scene *scene)
 {
 	char	**s;
 	t_obj	*new_obj;
 
 	s = validate_params(line, 4, "Error: Plane line missing parameters");
 	if (!s)
-		return ;
-	new_obj = parse_obj_params(s, PLANE, scene);
-	if (new_obj)
-		add_object(&scene->objects, new_obj);
+		return (EXIT_FAILURE);
+	new_obj = parse_obj_params(s, PLANE);
+	if (!new_obj)
+	{
+		free_split(s);
+		return (EXIT_FAILURE);
+	}
+	add_object(&scene->objects, new_obj);
 	free_split(s);
+	return (EXIT_SUCCESS);
 }
 
-void	parse_cylinder(char *line, t_scene *scene)
+int	parse_cylinder(char *line, t_scene *scene)
 {
 	char	**s;
 	t_obj	*new_obj;
 
 	s = validate_params(line, 6, "Error: Cylinder line missing parameters");
 	if (!s)
-		return ;
-	new_obj = parse_obj_params(s, CYLINDER, scene);
-	if (new_obj)
-		add_object(&scene->objects, new_obj);
+		return (EXIT_FAILURE);
+	new_obj = parse_obj_params(s, CYLINDER);
+	if (!new_obj)
+	{
+		free_split(s);
+		return (EXIT_FAILURE);
+	}
+	add_object(&scene->objects, new_obj);
 	free_split(s);
+	return (EXIT_SUCCESS);
 }
 
-void	parse_light(char *line, t_scene *scene)
+int	parse_light(char *line, t_scene *scene)
 {
 	char	**s;
-
+	
 	s = validate_params(line, 4, "Error: Light line missing parameters");
 	if (!s)
-		return ;
+		return (EXIT_FAILURE);
 	scene->light.pos = parse_vector(s[1]);
 	// printf("output of ratio after atof: %f", scene->light.colour.ratio);
+	if (!is_valid_ratio(ft_atof(s[2])))
+	{
+		free_split(s);
+		return (error_message("Error: Invalid light ratio"));
+	}
 	scene->light.colour = parse_colour(s[3]);
+	if (!validate_colour(scene->light.colour))
+	{
+		free_split(s);
+		return (error_message("Error: Invalid colour in light"));
+	}
 	scene->light.colour.ratio = ft_atof(s[2]);
 	free_split(s);
+	return (EXIT_SUCCESS);
 }
 
-void	parse_ambient(char *line, t_scene *scene)
+int	parse_ambient(char *line, t_scene *scene)
 {
 	char	**s;
 	float	ratio;
 
 	s = validate_params(line, 3, "Error: Ambient line missing parameters");
 	if (!s)
-		return ;
+		return (EXIT_FAILURE);
 	ratio = ft_atof(s[1]);
 	if (!is_valid_ratio(ratio))
 	{
-		ft_putstr_stderr("Error: Invalid ambient light ratio");
 		free_split(s);
-		return ;
+		return (error_message("Error: Invalid ambient light ratio"));
 	}
 	scene->a_light = parse_colour(s[2]);
 	scene->a_light.ratio = ratio;
 	if (!validate_colour(scene->a_light))
 	{
-		ft_putstr_stderr("Error: Invalid colour in ambient light");
 		free_split(s);
-		return ;
+		return (error_message("Error: Invalid colour in ambient light"));
 	}
 	free_split(s);
+	return (EXIT_SUCCESS);
 }

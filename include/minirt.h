@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 14:51:41 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:36:46 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void				setup_scene(t_scene *scene);
 /*		PARSING		*/
 int					rt_file(char *file);
 int					open_file(const char *filename);
-void				parse_scene_file(const char *filename, t_scene *scene);
+int				parse_scene_file(const char *filename, t_scene *scene);
 
 // parse_vector_color.c
 t_vec3				parse_vector(char *string);
@@ -216,15 +216,15 @@ bool				is_valid_component(char *str, int *out);
 void				free_split(char **split);
 
 // parse_objects.c
-void				parse_sphere(char *line, t_scene *scene);
-void				parse_plane(char *line, t_scene *scene);
-void				parse_cylinder(char *line, t_scene *scene);
-void				parse_ambient(char *line, t_scene *scene);
-void				parse_light(char *line, t_scene *scene);
+int				parse_sphere(char *line, t_scene *scene);
+int				parse_plane(char *line, t_scene *scene);
+int				parse_cylinder(char *line, t_scene *scene);
+int				parse_ambient(char *line, t_scene *scene);
+int				parse_light(char *line, t_scene *scene);
 
 // parse_scene.c
-void				parse_line(char *line, t_scene *scene);
-void				parse_camera(char *line, t_scene *scene);
+int				parse_line(char *line, t_scene *scene);
+int				parse_camera(char *line, t_scene *scene);
 bool				is_number(char *str);
 bool				is_valid_ratio(float f);
 
