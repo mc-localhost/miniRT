@@ -1,0 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   translation.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/05 01:12:00 by ykhattab          #+#    #+#             */
+/*   Updated: 2025/04/05 14:41:48 by ykhattab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minirt.h"
+
+void	move_camera_forward(t_data *data, float distance)
+{
+	t_vec3 forward = data->scene->camera.norm;
+	t_vec3 movement = v_scale(forward, distance);
+	
+	v_add_inplace(&data->scene->camera.view_point, movement);
+	data->needs_update = true;
+}
+
+void move_camera_sideways(t_data *data, float distance)
+{
+    t_vec3 forward = data->scene->camera.norm;
+    t_vec3 world_up = (t_vec3){0.0f, 1.0f, 0.0f};
+    t_vec3 right = v_unit(v_cross(forward, world_up));
+    t_vec3 movement = v_scale(right, distance);
+    
+    v_add_inplace(&data->scene->camera.view_point, movement);
+    data->needs_update = true;
+}
+
+void move_camera_vertical(t_data *data, float distance)
+{
+    t_vec3 forward = data->scene->camera.norm;
+    t_vec3 world_up = (t_vec3){0.0f, 1.0f, 0.0f};
+    t_vec3 right = v_unit(v_cross(forward, world_up));
+    t_vec3 up = v_cross(right, forward);
+    t_vec3 movement = v_scale(up, distance);
+    
+    v_add_inplace(&data->scene->camera.view_point, movement);
+    data->needs_update = true;
+}

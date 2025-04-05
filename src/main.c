@@ -6,13 +6,13 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/04 18:35:16 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:52:04 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-static void	init_viewport(t_data *data)
+void	init_viewport(t_data *data)
 {
 	t_vec3	u;
 	t_vec3	v;
@@ -39,7 +39,7 @@ static void	init_viewport(t_data *data)
 	v_add_inplace(&data->pixel00_loc, v_scale(data->pixel_delta_v, 0.5f));
 }
 
-static int	init_data(t_data *data, char *file)
+int	init_data(t_data *data, char *file)
 {
 	if (rt_file(file) != 0)
 		return (error_message("Error\nwrong file extension: must be .rt"));
@@ -52,6 +52,9 @@ static int	init_data(t_data *data, char *file)
 	data->h = HEIGHT; // can be some check here actually, at least for 0
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_len = 1.f;
+	// init camera movement parameters
+	data->move_speed = 1.0f;
+	data->needs_update = false;
 	init_viewport(data);
 	return (EXIT_SUCCESS);
 }

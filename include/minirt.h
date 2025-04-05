@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/04 22:33:21 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:51:41 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@
 # define HEIGHT 300
 # define INVALID_VEC3 ((t_vec3){NAN, NAN, NAN})
 # define INVALID_COL (t_colour){-1, -1, -1, -1.0f}
+
+// Key codes for MacOS
+# define KEY_ESC     53
+# define KEY_W       13
+# define KEY_A       0
+# define KEY_S       1
+# define KEY_D       2
+# define KEY_Q       12
+# define KEY_E       14
+# define KEY_LEFT    123
+# define KEY_RIGHT   124
+# define KEY_UP      126
+# define KEY_DOWN    125
 
 typedef enum e_type
 {
@@ -137,11 +150,17 @@ typedef struct s_data
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
+	//camera movement variables
+	float			move_speed;       // Units per keypress for translation
+    bool			needs_update;      // Flag to indicate when the scene needs to be rerendered
 
 }					t_data;
 
 /*		MAIN		*/
 int					error_message(char *str);
+int					init_data(t_data *data, char *file);
+void				init_viewport(t_data *data);
+
 
 /*		COLOUR		*/
 int					rgb_to_int(t_colour c);
@@ -208,6 +227,13 @@ void				parse_line(char *line, t_scene *scene);
 void				parse_camera(char *line, t_scene *scene);
 bool				is_number(char *str);
 bool				is_valid_ratio(float f);
+
+
+// movement
+void				move_camera_forward(t_data *data, float distance);
+void				move_camera_sideways(t_data *data, float distance);
+void				move_camera_vertical(t_data *data, float distance);
+
 
 /*		CLEANUP		*/
 int					clean_exit(t_data *data);

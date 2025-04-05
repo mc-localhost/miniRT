@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/04 22:30:21 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:48:19 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void parse_scene_file(const char *filename, t_scene *scene)
     scene->objects = NULL;
     while ((line = get_next_line(fd)) != NULL)
     {
-        // skip empty lines
-        if (line[0] != '\0' && line[0] != '\n') 
+        // skip empty and commented out lines
+        if (line[0] != '\0' && line[0] != '\n' && line[0] != '#') 
             parse_line(line, scene);
         free(line);
     }

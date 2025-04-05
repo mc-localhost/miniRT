@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:07:50 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:45:17 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,35 @@ int	clean_exit(t_data *data)
 	exit(0);
 }
 
-/* 53 = ESC */
 
-int	key_hook(int k, t_data *data)
+int	key_hook(int key, t_data *data)
 {
-	if (k == 53)
+	if (key == 53)
 		clean_exit(data);
+	
+	if (key == KEY_ESC)
+        clean_exit(data);
+        
+    // WASD for XZ plane, Q/E for Y axis
+    if (key == KEY_W)            // forward
+        move_camera_forward(data, data->move_speed);
+    else if (key == KEY_S)       // backward
+        move_camera_forward(data, -data->move_speed);
+    else if (key == KEY_A)       // left
+        move_camera_sideways(data, -data->move_speed);
+    else if (key == KEY_D)       // right
+        move_camera_sideways(data, data->move_speed);
+    else if (key == KEY_Q)       // up
+        move_camera_vertical(data, data->move_speed);
+    else if (key == KEY_E)       // down
+        move_camera_vertical(data, -data->move_speed);
+
+	if (data->needs_update) {
+		init_viewport(data);
+		put_pixels(data);
+		mlx_put_image_to_window(data->mlx, data->window, data->img.img, 0, 0);
+		data->needs_update = false;
+	}
 	return (EXIT_SUCCESS);
+	
 }
