@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 21:37:04 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:14:58 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	main(int argc, char *argv[])
 	if (argc != 2)
 		return (error_message("Error\nput .rt path after ./miniRT\n"));
 	if (init_data(&data, argv[1]) == EXIT_FAILURE)
-		exit(EXIT_FAILURE);
+	{
+		free_scene(data.scene);
+		return (EXIT_FAILURE);
+	}
 	data.mlx = mlx_init();
 	data.window = mlx_new_window(data.mlx, data.w, data.h, "miniRT");
 	data.img.img = mlx_new_image(data.mlx, data.w, data.h);

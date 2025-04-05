@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 21:36:46 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:16:16 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ void				move_camera_vertical(t_data *data, float distance);
 
 /*		CLEANUP		*/
 int					clean_exit(t_data *data);
+void				free_scene(t_scene *scene);
 int					key_hook(int k, t_data *data);
 
 #endif

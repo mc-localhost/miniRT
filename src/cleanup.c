@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 14:45:17 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:15:47 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 // 	free(scene);
 // }
 
-static void	free_scene(t_scene *scene) // maybe switch to garbage collector later
+void	free_scene(t_scene *scene) // maybe switch to garbage collector later
 {
 	t_obj	*current;
 	t_obj	*next;
