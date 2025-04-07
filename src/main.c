@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 22:14:58 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 01:27:58 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	init_data(t_data *data, char *file)
 	// init camera movement parameters
 	data->move_speed = 1.0f;
 	data->needs_update = false;
+	data->selected_object = NULL;
 	init_viewport(data);
 	return (EXIT_SUCCESS);
 }

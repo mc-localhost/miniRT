@@ -6,7 +6,7 @@
 #    By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/20 10:43:19 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/04/05 03:54:29 by ykhattab         ###   ########.fr        #
+#    Updated: 2025/04/07 01:12:55 by ykhattab         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBFT_FLAGS		= -Llibft
 MINILIBX		= mlx/libmlx.a
 MLX_FLAGS		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 LFLAGS			= $(MLX_FLAGS) $(LIBFT_FLAGS)
-FILES			= cleanup error main parse utils vector_ops vector_ops_2 vector_ops_inplace colour put_pixels sphere cylinder translation rotation plane \
+FILES			= cleanup error main parse utils vector_ops vector_ops_2 vector_ops_inplace colour put_pixels sphere cylinder translate_camera translate_sphere key_events rotation plane \
 				  parsing/parse_objects parsing/parse_scene parsing/parse_vector_color parsing/parsing_utils
 GNL				= gnl/get_next_line
 SRC_PATH		= ./src/

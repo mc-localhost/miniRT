@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/05 21:49:38 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/06 23:56:29 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_obj	*parse_obj_params(char **s, t_type type) // review the error handli
 	else
 		obj = NULL;
 	if (!obj)
-		ft_putstr_stderr("Error: Failed to create object");
+		ft_putstr_stderr("Error\nFailed to create object");
 	return (obj);
 }
 
@@ -63,7 +63,7 @@ int	parse_sphere(char *line, t_scene *scene)
 	char	**s;
 	t_obj	*new_obj;
 
-	s = validate_params(line, 4, "Error: Sphere line missing parameters");
+	s = validate_params(line, 4, "Error\nSphere line missing parameters");
 	if (!s)
 		return (EXIT_FAILURE);
 	new_obj = parse_obj_params(s, SPHERE);
@@ -82,7 +82,7 @@ int	parse_plane(char *line, t_scene *scene)
 	char	**s;
 	t_obj	*new_obj;
 
-	s = validate_params(line, 4, "Error: Plane line missing parameters");
+	s = validate_params(line, 4, "Error\nPlane line missing parameters");
 	if (!s)
 		return (EXIT_FAILURE);
 	new_obj = parse_obj_params(s, PLANE);
@@ -101,7 +101,7 @@ int	parse_cylinder(char *line, t_scene *scene)
 	char	**s;
 	t_obj	*new_obj;
 
-	s = validate_params(line, 6, "Error: Cylinder line missing parameters");
+	s = validate_params(line, 6, "Error\nCylinder line missing parameters");
 	if (!s)
 		return (EXIT_FAILURE);
 	new_obj = parse_obj_params(s, CYLINDER);
@@ -119,7 +119,7 @@ int	parse_light(char *line, t_scene *scene)
 {
 	char	**s;
 	
-	s = validate_params(line, 4, "Error: Light line missing parameters");
+	s = validate_params(line, 4, "Error\nLight line missing parameters");
 	if (!s)
 		return (EXIT_FAILURE);
 	scene->light.pos = parse_vector(s[1]);
@@ -127,13 +127,13 @@ int	parse_light(char *line, t_scene *scene)
 	if (!is_valid_ratio(ft_atof(s[2])))
 	{
 		free_split(s);
-		return (error_message("Error: Invalid light ratio"));
+		return (error_message("Error\nInvalid light ratio"));
 	}
 	scene->light.colour = parse_colour(s[3]);
 	if (!validate_colour(scene->light.colour))
 	{
 		free_split(s);
-		return (error_message("Error: Invalid colour in light"));
+		return (error_message("Error\nInvalid colour in light"));
 	}
 	scene->light.colour.ratio = ft_atof(s[2]);
 	free_split(s);
@@ -145,21 +145,21 @@ int	parse_ambient(char *line, t_scene *scene)
 	char	**s;
 	float	ratio;
 
-	s = validate_params(line, 3, "Error: Ambient line missing parameters");
+	s = validate_params(line, 3, "Error\nAmbient line missing parameters");
 	if (!s)
 		return (EXIT_FAILURE);
 	ratio = ft_atof(s[1]);
 	if (!is_valid_ratio(ratio))
 	{
 		free_split(s);
-		return (error_message("Error: Invalid ambient light ratio"));
+		return (error_message("Error\nInvalid ambient light ratio"));
 	}
 	scene->a_light = parse_colour(s[2]);
 	scene->a_light.ratio = ratio;
 	if (!validate_colour(scene->a_light))
 	{
 		free_split(s);
-		return (error_message("Error: Invalid colour in ambient light"));
+		return (error_message("Error\nInvalid colour in ambient light"));
 	}
 	free_split(s);
 	return (EXIT_SUCCESS);

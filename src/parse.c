@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 23:03:12 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/06 23:56:43 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int open_file(const char *filename)
     fd = open(filename, O_RDONLY);
     if (fd == -1)
     {
-        perror("Error opening file");
+		ft_putstr_stderr("Error\nFailed to open file");
         return (-1);
     }
     return (fd);
@@ -47,7 +47,7 @@ int parse_scene_file(const char *filename, t_scene *scene)
 	
 	fd = open_file(filename);
 	if (fd < 0)
-		return (error_message("Failed to open file."));
+		return (error_message("Error\nFailed to open file."));
     scene->objects = NULL;
     while ((line = get_next_line(fd)) != NULL)
     {
@@ -59,7 +59,7 @@ int parse_scene_file(const char *filename, t_scene *scene)
 					free(line);
 					close(fd);
 					free_scene(scene); // recheck if we are double freeing
-					return error_message("Error: failed to parse line.");
+					return error_message("Error\nfailed to parse line.");
 				}
 				if (line[0] == 'A')
 					ambient_found++;
@@ -71,11 +71,11 @@ int parse_scene_file(const char *filename, t_scene *scene)
         free(line);
     }
 	if (ambient_found != 1)
-		return error_message("Error: Expected exactly one ambient object.");
+		return error_message("Error\nExpected exactly one ambient object.");
 	if (camera_found != 1)
-		return error_message("Error: Expected exactly one camera object.");
+		return error_message("Error\nExpected exactly one camera object.");
 	if (light_found != 1)
-		return error_message("Error: Expected exactly one light object.");
+		return error_message("Error\nExpected exactly one light object.");
 	
     close(fd);
 	return (EXIT_SUCCESS);

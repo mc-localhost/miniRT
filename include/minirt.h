@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/05 22:16:16 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 01:28:53 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,17 @@
 # define KEY_LEFT    123
 # define KEY_RIGHT   124
 # define KEY_UP      126
-# define KEY_DOWN    125
+# define KEY_DOWN	125
+# define KEY_PLUS	24
+# define KEY_MINUS	27
+
+// object transform keys
+# define KEY_I       34
+# define KEY_K       40
+# define KEY_J       38
+# define KEY_L       37
+# define KEY_U       32
+# define KEY_O       31
 
 typedef enum e_type
 {
@@ -150,10 +160,10 @@ typedef struct s_data
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
-	//camera movement variables
+	//transformation variables
 	float			move_speed;       // Units per keypress for translation
     bool			needs_update;      // Flag to indicate when the scene needs to be rerendered
-
+	t_obj			*selected_object; //currently selected object
 }					t_data;
 
 /*		MAIN		*/
@@ -233,7 +243,12 @@ bool				is_valid_ratio(float f);
 void				move_camera_forward(t_data *data, float distance);
 void				move_camera_sideways(t_data *data, float distance);
 void				move_camera_vertical(t_data *data, float distance);
+void				move_sphere_x(t_data *data, t_obj *sphere, float distance);
+void				move_sphere_y(t_data *data, t_obj *sphere, float distance);
+void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
 
+void				select_next_object(t_data *data);
+void				select_prev_object(t_data *data);
 
 /*		CLEANUP		*/
 int					clean_exit(t_data *data);
