@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 01:27:58 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 05:51:22 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	init_data(t_data *data, char *file)
 	if (!data->scene)
 		return (error_message("Error\nmemory allocation failed"));
 	if (parse_scene_file(file, data->scene))
-		return error_message("Error parsing the file");
+		return error_message("Error\nparsing file failed");
 	
 	// setup_scene(data->scene);
 	data->w = WIDTH;  // can be some check here actually, at least for 0
@@ -57,6 +57,7 @@ int	init_data(t_data *data, char *file)
 	// init camera movement parameters
 	data->move_speed = 1.0f;
 	data->needs_update = false;
+	data->rotate_speed = 0.05f;
 	data->selected_object = NULL;
 	init_viewport(data);
 	return (EXIT_SUCCESS);

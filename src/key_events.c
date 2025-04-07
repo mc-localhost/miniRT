@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 02:33:39 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 05:53:49 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ int	key_hook(int key, t_data *data)
     else if (key == KEY_E)       // down
         move_camera_vertical(data, -data->move_speed);
 	/* arrow keys for camera rotation */
+	else if (key == KEY_LEFT)
+        rotate_camera_yaw(data, -data->rotate_speed);
+    else if (key == KEY_RIGHT)
+        rotate_camera_yaw(data, data->rotate_speed);
+    else if (key == KEY_UP)
+        rotate_camera_pitch(data, data->rotate_speed);
+    else if (key == KEY_DOWN)
+        rotate_camera_pitch(data, -data->rotate_speed);
 	/* ------------------------------ */
 	else if (key == KEY_PLUS)
 		select_next_object(data);

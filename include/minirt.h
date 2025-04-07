@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 02:29:51 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 05:57:02 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_data
 	t_vec3			pixel00_loc;
 	//transformation variables
 	float			move_speed;       // Units per keypress for translation
+	float			rotate_speed;		//radians per key press
     bool			needs_update;      // Flag to indicate when the scene needs to be rerendered
 	t_obj			*selected_object; //currently selected object
 }					t_data;
@@ -233,8 +234,8 @@ int				parse_ambient(char *line, t_scene *scene);
 int				parse_light(char *line, t_scene *scene);
 
 // parse_scene.c
-int				parse_line(char *line, t_scene *scene);
-int				parse_camera(char *line, t_scene *scene);
+int					parse_line(char *line, t_scene *scene);
+int					parse_camera(char *line, t_scene *scene);
 bool				is_number(char *str);
 bool				is_valid_ratio(float f);
 
@@ -249,6 +250,8 @@ void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
 void				move_plane_x(t_data *data, t_obj *plane, float distance);
 void				move_plane_y(t_data *data, t_obj *plane, float distance);
 void				move_plane_z(t_data *data, t_obj *plane, float distance);
+void				rotate_camera_yaw(t_data *data, float angle);
+void				rotate_camera_pitch(t_data *data, float angle);
 
 
 void				select_next_object(t_data *data);
