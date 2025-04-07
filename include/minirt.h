@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 01:28:53 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 02:29:51 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,10 @@ void				move_camera_vertical(t_data *data, float distance);
 void				move_sphere_x(t_data *data, t_obj *sphere, float distance);
 void				move_sphere_y(t_data *data, t_obj *sphere, float distance);
 void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
+void				move_plane_x(t_data *data, t_obj *plane, float distance);
+void				move_plane_y(t_data *data, t_obj *plane, float distance);
+void				move_plane_z(t_data *data, t_obj *plane, float distance);
+
 
 void				select_next_object(t_data *data);
 void				select_prev_object(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 01:23:13 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 02:33:39 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,49 @@ int	key_hook(int key, t_data *data)
 	if (data->selected_object)
 	{
 		if (key == KEY_I)  // forward
-			move_sphere_z(data, data->selected_object, -data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_z(data, data->selected_object, -data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_z(data, data->selected_object, -data->move_speed);
+		}
 		else if (key == KEY_K)  // backward
-			move_sphere_z(data, data->selected_object, data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_z(data, data->selected_object, data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_z(data, data->selected_object, data->move_speed);
+		}
 		else if (key == KEY_J)  // left
-			move_sphere_x(data, data->selected_object, -data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_x(data, data->selected_object, -data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_x(data, data->selected_object, -data->move_speed);
+		}
 		else if (key == KEY_L)  // right
-			move_sphere_x(data, data->selected_object, data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_x(data, data->selected_object, data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_x(data, data->selected_object, data->move_speed);
+		}
 		else if (key == KEY_U)  // up
-			move_sphere_y(data, data->selected_object, data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_y(data, data->selected_object, data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_y(data, data->selected_object, data->move_speed);
+		}
 		else if (key == KEY_O)  // down
-			move_sphere_y(data, data->selected_object, -data->move_speed);
+		{
+			if (data->selected_object->type == SPHERE)
+				move_sphere_y(data, data->selected_object, -data->move_speed);
+			else if (data->selected_object->type == PLANE)
+				move_plane_y(data, data->selected_object, -data->move_speed);
+		}
 	}
+		
 	if (data->needs_update) {
 		init_viewport(data);
 		put_pixels(data);
