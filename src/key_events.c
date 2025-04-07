@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 07:26:57 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:53:10 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,20 @@ int	key_hook(int key, t_data *data)
 			data->needs_update = true;
 		}
 	}
+	// light translation
+	else if (key == KEY_HOME)
+		move_light_z(data, &data->scene->light, -data->move_speed);
+	else if (key == KEY_END)
+		move_light_z(data, &data->scene->light, data->move_speed);
+	else if (key == KEY_DELETE)
+		move_light_x(data, &data->scene->light, -data->move_speed);
+	else if (key == KEY_PAGEDOWN)
+		move_light_x(data, &data->scene->light, data->move_speed);
+	else if (key == KEY_PAGEUP)
+		move_light_y(data, &data->scene->light, data->move_speed);
+	else if (key == KEY_INSERT)
+		move_light_y(data, &data->scene->light, -data->move_speed);
+	// object selection
 	else if (key == KEY_PLUS)
 		select_next_object(data);
 	else if (key == KEY_MINUS)

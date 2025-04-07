@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 07:19:29 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:54:51 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define KEY_PLUS	24
 # define KEY_MINUS	27
 
-// object transform keys
+// object translation keys
 # define KEY_I       34
 # define KEY_K       40
 # define KEY_J       38
@@ -54,6 +54,13 @@
 # define KEY_NUM_4           86
 # define KEY_NUM_6           88
 # define KEY_NUM_8           91
+//light translation
+# define KEY_HOME       115
+# define KEY_END        119
+# define KEY_PAGEUP     116
+# define KEY_PAGEDOWN   121
+# define KEY_DELETE     117
+# define KEY_INSERT     114
 
 typedef enum e_type
 {
@@ -255,6 +262,10 @@ void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
 void				move_plane_x(t_data *data, t_obj *plane, float distance);
 void				move_plane_y(t_data *data, t_obj *plane, float distance);
 void				move_plane_z(t_data *data, t_obj *plane, float distance);
+void				move_light_x(t_data *data, t_light *light, float distance);
+void				move_light_y(t_data *data, t_light *light, float distance);
+void				move_light_z(t_data *data, t_light *light, float distance);
+
 //rotation
 void				rotate_camera_yaw(t_data *data, float angle);
 void				rotate_camera_pitch(t_data *data, float angle);
