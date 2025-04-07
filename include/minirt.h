@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 07:54:51 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 08:22:21 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@
 # define KEY_PAGEDOWN   121
 # define KEY_DELETE     117
 # define KEY_INSERT     114
+
+//object resizing
+# define KEY_LEFT_BRACKET    33
+# define KEY_RIGHT_BRACKET   30
 
 typedef enum e_type
 {

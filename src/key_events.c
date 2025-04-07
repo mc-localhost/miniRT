@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 07:53:10 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 08:21:28 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,26 @@ int	key_hook(int key, t_data *data)
 				move_sphere_y(data, data->selected_object, -data->move_speed);
 			else if (data->selected_object->type == PLANE)
 				move_plane_y(data, data->selected_object, -data->move_speed);
+		}
+		else if (key == KEY_LEFT_BRACKET)
+		{
+			if (data->selected_object->type == SPHERE)
+			{
+				data->selected_object->r -= 0.5f;
+				if (data->selected_object->r < 0.5f)
+					data->selected_object->r = 0.5f;
+				data->needs_update = true;
+			}
+		}
+		else if (key == KEY_RIGHT_BRACKET)
+		{
+			if (data->selected_object->type == SPHERE)
+			{
+				data->selected_object->r += 0.5f;
+				if (data->selected_object->r < 0.5f)
+					data->selected_object->r = 0.5f;
+				data->needs_update = true;
+			}
 		}
 	}
 		
