@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 15:49:04 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:18:13 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static t_hit	hit_object(t_ray ray, t_obj *curr)
 		hit = hit_sphere(ray, curr);
 	else if (curr->type == PLANE)
 		hit = hit_plane(ray, curr);
-	// else if (curr->type == CYLINDER)
-	// 	hit = hit_cylinder(ray, curr);
+	else if (curr->type == CYLINDER)
+		hit = hit_cylinder(ray, curr);
 	hit.front_face = v_dot(ray.dir, hit.normal) < 0;
 	if (!hit.front_face)
 		v_scale_inplace(&hit.normal, -1.f); //remove this thing to make plane not render from the back

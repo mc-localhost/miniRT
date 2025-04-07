@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 08:22:21 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 12:21:48 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ float				solve_quadratic(float d, float a, float b);
 
 /*		PLANE		*/
 t_hit				hit_plane(t_ray r, t_obj *pl);
+
+/*		CYLINDER		*/
+t_hit				hit_cylinder(t_ray r, t_obj *cy);
 
 /*		ERRORS		*/
 int					error_message(char *str);
