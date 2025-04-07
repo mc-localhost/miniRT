@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 05:53:49 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:26:57 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,39 @@ int	key_hook(int key, t_data *data)
     else if (key == KEY_DOWN)
         rotate_camera_pitch(data, -data->rotate_speed);
 	/* ------------------------------ */
+	// object rotation functions (could be cleaned and DRYed later)
+	else if (key == KEY_NUM_8 && data->selected_object)  // rotate x+
+	{
+		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
+		{
+			rotate_object_x(data->selected_object, 0.1f);
+			data->needs_update = true; // i may move this line inside the function
+		}
+	}
+	else if (key == KEY_NUM_2 && data->selected_object)  // rotate x-
+	{
+		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
+		{
+			rotate_object_x(data->selected_object, -0.1f);
+			data->needs_update = true;
+		}
+	}
+	else if (key == KEY_NUM_4 && data->selected_object)  // rotate y+
+	{
+		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
+		{
+			rotate_object_y(data->selected_object, -0.1f);
+			data->needs_update = true;
+		}
+	}
+	else if (key == KEY_NUM_6 && data->selected_object)  // rotate y-
+	{
+		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
+		{
+			rotate_object_y(data->selected_object, 0.1f);
+			data->needs_update = true;
+		}
+	}
 	else if (key == KEY_PLUS)
 		select_next_object(data);
 	else if (key == KEY_MINUS)

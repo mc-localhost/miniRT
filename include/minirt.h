@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 05:57:02 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/07 07:19:29 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@
 # define KEY_L       37
 # define KEY_U       32
 # define KEY_O       31
+//for object rotation direction
+# define KEY_NUM_2           84
+# define KEY_NUM_4           86
+# define KEY_NUM_6           88
+# define KEY_NUM_8           91
 
 typedef enum e_type
 {
@@ -250,9 +255,13 @@ void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
 void				move_plane_x(t_data *data, t_obj *plane, float distance);
 void				move_plane_y(t_data *data, t_obj *plane, float distance);
 void				move_plane_z(t_data *data, t_obj *plane, float distance);
+//rotation
 void				rotate_camera_yaw(t_data *data, float angle);
 void				rotate_camera_pitch(t_data *data, float angle);
-
+void				rotate_object_x(t_obj *obj, float angle);
+void				rotate_object_y(t_obj *obj, float angle);
+void				rotate_object_z(t_obj *obj, float angle);
+//selection
 
 void				select_next_object(t_data *data);
 void				select_prev_object(t_data *data);
