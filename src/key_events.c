@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 08:21:28 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:11:23 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	key_hook(int key, t_data *data)
 		}
 	}
 	// light translation
-	else if (key == KEY_HOME)
+	else if (key == KEY_HOME) //maybe T,G,F,H,R,Y for consistency?
 		move_light_z(data, &data->scene->light, -data->move_speed);
 	else if (key == KEY_END)
 		move_light_z(data, &data->scene->light, data->move_speed);
@@ -168,6 +168,25 @@ int	key_hook(int key, t_data *data)
 	
 }
 
+static void	print_obj_info(t_obj *obj)
+{
+	char	*obj_names[3];
+
+	obj_names[0] = "SPHERE";
+	obj_names[1] = "PLANE";
+	obj_names[2] = "CYLINDER";
+	if (!obj)
+	{
+		printf("No object selected.\n");
+		return ;
+	}
+	printf("Selected object: type=%s at (%.2f, %.2f, %.2f)\n",
+		obj_names[obj->type],
+		obj->center.x,
+		obj->center.y,
+		obj->center.z);
+}
+
 void select_next_object(t_data *data)
 {
 	if (!data->scene->objects)
@@ -178,18 +197,13 @@ void select_next_object(t_data *data)
 		data->selected_object = data->selected_object->next;
 	else //wrap around to the start
 		data->selected_object = data->scene->objects;
-
-	printf("Selected object: type=%d at (%f, %f, %f)\n",
-	data->selected_object->type,
-	data->selected_object->center.x,
-	data->selected_object->center.y,
-	data->selected_object->center.z);
+	print_obj_info(data->selected_object);
 }
 
 void select_prev_object(t_data *data)
 {
 	t_obj	*current;
-	
+
 	if (!data->scene->objects)
 		return;
 	// if nothing is selected or at the head, go to last
@@ -211,11 +225,5 @@ void select_prev_object(t_data *data)
 		else
 			data->selected_object = NULL;
 	}
-
-	printf("Selected object: type=%d at (%f, %f, %f)\n",
-	data->selected_object->type,
-	data->selected_object->center.x,
-	data->selected_object->center.y,
-	data->selected_object->center.z);
-	
+	print_obj_info(data->selected_object);
 }
