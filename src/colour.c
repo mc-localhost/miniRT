@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:07:28 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 12:10:21 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:33:36 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ int	rgb_to_int(t_colour c)
 	res += c.b;
 	return (res);
 }
-
-// void	c_scale_inplace(t_colour *colour, float c)
-// {
-// 	colour->r = fmin(255, colour->r * c);
-// 	colour->g = fmin(255, colour->g * c);
-// 	colour->b = fmin(255, colour->b * c);
-// }
 
 t_colour	c_clamp(t_colour colour)
 {
@@ -65,8 +58,7 @@ t_colour	c_scale(t_colour colour, float c)
 	res.b = colour.b * c;
 	return (c_clamp(res));
 }
-
- //DON'T DELETE FOR NOW
+/*	2 options for ambient lighting */
 
 // void	add_ambient(t_colour *obj, t_colour a_light)
 // {
@@ -75,7 +67,6 @@ t_colour	c_scale(t_colour colour, float c)
 // 	obj->b = obj->b * (1.0f - a_light.ratio) + a_light.b * a_light.ratio;
 // }
 
-//need to choose between this one and the previous one, previous one makes the scene look dull
 void	add_ambient(t_colour *obj, t_colour a_light)
 {
 	obj->r = fmin(255, obj->r + (a_light.r * a_light.ratio));
