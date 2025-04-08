@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/08 13:09:28 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:05:18 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,6 @@ typedef struct s_light
 	t_colour		colour;
 }					t_light;
 
-// typedef struct s_ambient_light
-// {
-// 	t_colour		colour;
-// }					t_ambient_light;
-
 typedef struct s_ray
 {
 	t_vec3			start;
@@ -176,10 +171,10 @@ typedef struct s_data
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
-	//transformation variables
-	float			move_speed;       // Units per keypress for translation
-	float			rotate_speed;		//radians per key press
-    bool			needs_update;      // Flag to indicate when the scene needs to be rerendered
+	//------ transformations -------
+	float			move_speed; // units per keypress for translation
+	float			rotate_speed; // radians per key press
+	bool			needs_update; // when the scene needs to be rerendered
 	t_obj			*selected_object; //currently selected object
 }					t_data;
 
@@ -197,8 +192,8 @@ t_colour			c_scale(t_colour colour, float c);
 void				add_ambient(t_colour *obj, t_colour a_light);
 
 /*		PUT PIXELS		*/
-t_ray				send_cam_ray(t_data *data, int x, int y);
-void				put_pixel_to_img(t_img *img, int x, int y, int colour);
+t_colour			hit_objects(t_data *data, t_ray ray);
+t_hit				hit_object(t_ray ray, t_obj *curr);
 void				put_pixels(t_data *data);
 
 /*		VECTOR OPERATIONS		*/
@@ -249,6 +244,10 @@ void				free_split(char **split);
 int				parse_sphere(char *line, t_scene *scene);
 int				parse_plane(char *line, t_scene *scene);
 int				parse_cylinder(char *line, t_scene *scene);
+
+char	**validate_params(char *line, int param_count, char *err_msg);
+t_obj	*parse_obj_params(char **s, t_type type);
+
 int				parse_ambient(char *line, t_scene *scene);
 int				parse_light(char *line, t_scene *scene);
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/06 23:56:29 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:03:02 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
-static char	**validate_params(char *line, int param_count, char *err_msg)
+char	**validate_params(char *line, int param_count, char *err_msg)
 {
 	char	**s;
 	int		i;
@@ -25,14 +25,14 @@ static char	**validate_params(char *line, int param_count, char *err_msg)
 		i++;
 	if (i < param_count)
 	{
-		ft_putstr_stderr(err_msg);
 		free_split(s);
+		error_message(err_msg);
 		return (NULL);
 	}
 	return (s);
 }
 
-static t_obj	*parse_obj_params(char **s, t_type type) // review the error handling here after the changed parent function
+t_obj	*parse_obj_params(char **s, t_type type)
 {
 	t_obj	*obj;
 
@@ -53,8 +53,6 @@ static t_obj	*parse_obj_params(char **s, t_type type) // review the error handli
 	}
 	else
 		obj = NULL;
-	if (!obj)
-		ft_putstr_stderr("Error\nFailed to create object");
 	return (obj);
 }
 
@@ -70,7 +68,7 @@ int	parse_sphere(char *line, t_scene *scene)
 	if (!new_obj)
 	{
 		free_split(s);
-		return (EXIT_FAILURE);
+		return (error_message("Error\nFailed to create object"));
 	}
 	add_object(&scene->objects, new_obj);
 	free_split(s);
@@ -89,7 +87,7 @@ int	parse_plane(char *line, t_scene *scene)
 	if (!new_obj)
 	{
 		free_split(s);
-		return (EXIT_FAILURE);
+		return (error_message("Error\nFailed to create object"));
 	}
 	add_object(&scene->objects, new_obj);
 	free_split(s);
@@ -108,59 +106,9 @@ int	parse_cylinder(char *line, t_scene *scene)
 	if (!new_obj)
 	{
 		free_split(s);
-		return (EXIT_FAILURE);
+		return (error_message("Error\nFailed to create object"));
 	}
 	add_object(&scene->objects, new_obj);
-	free_split(s);
-	return (EXIT_SUCCESS);
-}
-
-int	parse_light(char *line, t_scene *scene)
-{
-	char	**s;
-	
-	s = validate_params(line, 4, "Error\nLight line missing parameters");
-	if (!s)
-		return (EXIT_FAILURE);
-	scene->light.pos = parse_vector(s[1]);
-	// printf("output of ratio after atof: %f", scene->light.colour.ratio);
-	if (!is_valid_ratio(ft_atof(s[2])))
-	{
-		free_split(s);
-		return (error_message("Error\nInvalid light ratio"));
-	}
-	scene->light.colour = parse_colour(s[3]);
-	if (!validate_colour(scene->light.colour))
-	{
-		free_split(s);
-		return (error_message("Error\nInvalid colour in light"));
-	}
-	scene->light.colour.ratio = ft_atof(s[2]);
-	free_split(s);
-	return (EXIT_SUCCESS);
-}
-
-int	parse_ambient(char *line, t_scene *scene)
-{
-	char	**s;
-	float	ratio;
-
-	s = validate_params(line, 3, "Error\nAmbient line missing parameters");
-	if (!s)
-		return (EXIT_FAILURE);
-	ratio = ft_atof(s[1]);
-	if (!is_valid_ratio(ratio))
-	{
-		free_split(s);
-		return (error_message("Error\nInvalid ambient light ratio"));
-	}
-	scene->a_light = parse_colour(s[2]);
-	scene->a_light.ratio = ratio;
-	if (!validate_colour(scene->a_light))
-	{
-		free_split(s);
-		return (error_message("Error\nInvalid colour in ambient light"));
-	}
 	free_split(s);
 	return (EXIT_SUCCESS);
 }
