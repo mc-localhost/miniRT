@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 05:07:44 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/08 14:57:15 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:38:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	parse_line(char *line, t_scene *scene)
 	else if (line[0] == 'L')
 		result = parse_light(line, scene);
 	else if (ft_strncmp(line, "sp", 2) == 0)
-		result = parse_sphere(line, scene);
+		result = parse_obj(line, scene, SPHERE);
 	else if (ft_strncmp(line, "pl", 2) == 0)
-		result = parse_plane(line, scene);
+		result = parse_obj(line, scene, PLANE);
 	else if (ft_strncmp(line, "cy", 2) == 0)
-		result = parse_cylinder(line, scene);
+		result = parse_obj(line, scene, CYLINDER);
 	else
 		return (error_message("Error\nInvalid object or malformed line"));
 	return (result);

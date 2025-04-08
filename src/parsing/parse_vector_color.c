@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 23:49:12 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/08 15:12:53 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:13:50 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_colour	parse_colour(char *string)
 	{
 		if (s)
 			free_split(s);
-		return (INVALID_COL);
+		return (INVALID_COL);  //check the outer check
 	}
 	free_split(s);
 	return (c);

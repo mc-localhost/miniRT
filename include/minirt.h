@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/08 15:05:18 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:47:38 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,10 +223,9 @@ t_hit				hit_cylinder(t_ray r, t_obj *cy);
 int					error_message(char *str);
 
 /*		UTILS		*/
-t_obj				*create_object(t_type type, t_vec3 center, t_colour colour,
-						t_vec3 norm, float diameter, float h);
+t_obj				*create_object(t_type type, t_vec3 norm, float diameter, float h);
 void				add_object(t_obj **list, t_obj *new_obj);
-void				setup_scene(t_scene *scene);
+// void				setup_scene(t_scene *scene);
 
 /*		PARSING		*/
 int					rt_file(char *file);
@@ -241,9 +240,10 @@ bool				is_valid_component(char *str, int *out);
 void				free_split(char **split);
 
 // parse_objects.c
-int				parse_sphere(char *line, t_scene *scene);
-int				parse_plane(char *line, t_scene *scene);
-int				parse_cylinder(char *line, t_scene *scene);
+// int				parse_sphere(char *line, t_scene *scene);
+// int				parse_plane(char *line, t_scene *scene);
+// int				parse_cylinder(char *line, t_scene *scene);
+int	parse_obj(char *line, t_scene *scene, t_type type);
 
 char	**validate_params(char *line, int param_count, char *err_msg);
 t_obj	*parse_obj_params(char **s, t_type type);
