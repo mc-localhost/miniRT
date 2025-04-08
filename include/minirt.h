@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 12:21:48 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:09:28 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,15 +263,10 @@ bool				is_valid_ratio(float f);
 void				move_camera_forward(t_data *data, float distance);
 void				move_camera_sideways(t_data *data, float distance);
 void				move_camera_vertical(t_data *data, float distance);
-void				move_sphere_x(t_data *data, t_obj *sphere, float distance);
-void				move_sphere_y(t_data *data, t_obj *sphere, float distance);
-void				move_sphere_z(t_data *data, t_obj *sphere, float distance);
-void				move_plane_x(t_data *data, t_obj *plane, float distance);
-void				move_plane_y(t_data *data, t_obj *plane, float distance);
-void				move_plane_z(t_data *data, t_obj *plane, float distance);
-void				move_light_x(t_data *data, t_light *light, float distance);
-void				move_light_y(t_data *data, t_light *light, float distance);
-void				move_light_z(t_data *data, t_light *light, float distance);
+
+void	move_obj(t_data *data, t_obj *obj, float coef, char dir);
+void	move_light(t_data *data, t_light *light, float coef, char dir);
+void	change_r_h(t_data *data, t_obj *obj, float coef, char r_h);
 
 //rotation
 void				rotate_camera_yaw(t_data *data, float angle);

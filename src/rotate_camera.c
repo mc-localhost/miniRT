@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate_camera.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 03:19:58 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/07 07:28:19 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:56:33 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void rotate_camera_yaw(t_data *data, float angle)
 	data->scene->camera.norm = v_unit(data->scene->camera.norm);
 	data->needs_update = true;
 }
-	
 
 /*
 rotates the camera up/down (pitch) around the camera's right vector (not around the X-axis!)
@@ -42,10 +41,13 @@ void rotate_camera_pitch(t_data *data, float angle)
 	t_vec3 new_forward;
 
 	// simplified implementation of Rodrigue's Rotation Formula (still don't understand its derivation)
-	new_forward.x = forward.x * cosf(angle) + (right.y * forward.z - right.z * forward.y) * sinf(angle);
-    new_forward.y = forward.y * cosf(angle) + (right.z * forward.x - right.x * forward.z) * sinf(angle);
-    new_forward.z = forward.z * cosf(angle) + (right.x * forward.y - right.y * forward.x) * sinf(angle);
-    
+	new_forward = v_scale(forward, cosf(angle));
+	//the rest can also be modified using v_cross etc. if needed for norm
+	new_forward.x += (right.y * forward.z - right.z * forward.y) * sinf(angle);
+    new_forward.y += (right.z * forward.x - right.x * forward.z) * sinf(angle);
+    new_forward.z += (right.x * forward.y - right.y * forward.x) * sinf(angle);
 	data->scene->camera.norm = v_unit(new_forward);
     data->needs_update = true;
+	printf("angle: %f, cos: %f, sin: %f\n", angle, cosf(angle), sinf(angle));
+	printf("new camera norm: x= %f, y= %f, z= %f\n", data->scene->camera.norm.x, data->scene->camera.norm.y, data->scene->camera.norm.z);
 }
