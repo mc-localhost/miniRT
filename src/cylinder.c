@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 11:20:18 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 17:17:00 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:20:58 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static t_hit	min_top_bottom(t_ray r, t_obj *cy)
 	bottom_hit = hit_plane(r, &bottom);
 	if (within_circle(top_hit, top, cy->r, r))
 		min = top_hit;
-	if ((isnan(min.t) || bottom_hit.t < min.t) && within_circle(bottom_hit, bottom, cy->r, r))
+	if ((isnan(min.t) || bottom_hit.t < min.t) && within_circle(bottom_hit,
+			bottom, cy->r, r))
 		min = bottom_hit;
 	return (min);
 }
@@ -93,23 +94,18 @@ t_hit	hit_cylinder(t_ray r, t_obj *cy)
 	float	b;
 
 	hit.t = nanf("");
-	// hit.t = INFINITY;
-	oc = v_subtract(cy->center, r.start);
+	oc = v_subtract(r.start, cy->center);
 	a = v_dot(r.dir, r.dir) - powf(v_dot(r.dir, cy->norm), 2);
-	b = -2.0 * v_dot(r.dir, oc) - v_dot(r.dir, cy->norm) * v_dot(oc, cy->norm);
-	d = b * b - 4 * a * (v_dot(oc, oc) - powf(v_dot(oc, cy->norm), 2) - cy->r
-			* cy->r);
+	b = 2.0 * (v_dot(r.dir, oc) - v_dot(r.dir, cy->norm) * v_dot(oc, cy->norm));
+	d = b * b - 4 * a * (v_dot(oc, oc) - powf(v_dot(oc, cy->norm), 2)
+			- powf(cy->r, 2));
 	if (within_height(cy, r, solve_quadratic(d, a, b)))
 	{
 		hit.t = solve_quadratic(d, a, b);
 		hit.normal = side_normal(r, cy, hit.t);
 	}
-	if (isnan(hit.t))
+	if (isnan(hit.t) || (!isnan(hit.t) && !isnan(min_top_bottom(r, cy).t)
+			&& (hit.t >= min_top_bottom(r, cy).t)))
 		return (min_top_bottom(r, cy));
-	else
-	{
-		if (!isnan(min_top_bottom(r, cy).t) && (hit.t >= min_top_bottom(r, cy).t))
-			return (min_top_bottom(r, cy));
-	}
 	return (hit);
 }

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 15:13:40 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:16:45 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ float	solve_quadratic(float d, float a, float b)
 	float	x1;
 	float	x2;
 
-	if (d < 0.0f)
+	if (d < 0.0f || a == 0)
 		return (nanf(""));
 	x1 = (-b + sqrtf(d)) / (2.f * a);
 	x2 = (-b - sqrtf(d)) / (2.f * a);
