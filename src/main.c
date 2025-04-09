@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 05:51:22 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:00:53 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ int	init_data(t_data *data, char *file)
 		return error_message("Error\nparsing file failed");
 	
 	// setup_scene(data->scene);
-	data->w = WIDTH;  // can be some check here actually, at least for 0
-	data->h = HEIGHT; // can be some check here actually, at least for 0
+	if (WIDTH <= 100 || HEIGHT <= 100 || WIDTH > 3840 || HEIGHT > 2160)
+    	return (error_message("Error\nwindow dimensions must be between 100x100 and 3840x2160"));
+	data->w = WIDTH;
+	data->h = HEIGHT;
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_len = 1.f;
 	// init camera movement parameters

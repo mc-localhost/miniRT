@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/08 15:47:38 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/09 07:06:27 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@
 # define KEY_NUM_4           86
 # define KEY_NUM_6           88
 # define KEY_NUM_8           91
+
 //light translation
-# define KEY_HOME       115
-# define KEY_END        119
-# define KEY_PAGEUP     116
-# define KEY_PAGEDOWN   121
-# define KEY_DELETE     117
-# define KEY_INSERT     114
+#define KEY_T 17
+#define KEY_G 5
+#define KEY_F 3
+#define KEY_H 4
+#define KEY_R 15
+#define KEY_Y 16
 
 //object resizing
 # define KEY_LEFT_BRACKET    33

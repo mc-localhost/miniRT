@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/08 13:16:43 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/09 07:05:41 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ static void	keys_camera(int key, t_data *data)
 
 static void	keys_light(int key, t_data *data)
 {
-	if (key == KEY_HOME) //maybe T,G,F,H,R,Y for consistency?
+	if (key == KEY_T)
 		move_light(data, &data->scene->light, -1.f, 'z');
-	else if (key == KEY_END)
+	else if (key == KEY_G)
 		move_light(data, &data->scene->light, 1.f, 'z');
-	else if (key == KEY_DELETE)
+	else if (key == KEY_F)
 		move_light(data, &data->scene->light, -1.f, 'x');
-	else if (key == KEY_PAGEDOWN)
+	else if (key == KEY_H)
 		move_light(data, &data->scene->light, 1.f, 'x');
-	else if (key == KEY_PAGEUP)
+	else if (key == KEY_R)
 		move_light(data, &data->scene->light, 1.f, 'y');
-	else if (key == KEY_INSERT)
+	else if (key == KEY_Y)
 		move_light(data, &data->scene->light, -1.f, 'y');
 }
 
