@@ -6,11 +6,32 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/09 07:13:10 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/09 08:45:57 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
+static void key_object_rotation(int key, t_data *data)
+{
+	bool	rotation_applied;
+	float	angle;
+
+	rotation_applied = false;
+	angle = 0.1f;
+	if (data->selected_object->type != PLANE && data->selected_object->type != CYLINDER)
+		return;
+	if (key == KEY_NUM_8)
+		rotation_applied = rotate_object_x(data->selected_object, angle);
+	else if (key == KEY_NUM_2)   // rotate x-
+        rotation_applied = rotate_object_x(data->selected_object, -angle);
+    else if (key == KEY_NUM_4)   // rotate y+
+        rotation_applied = rotate_object_y(data->selected_object, -angle);
+    else if (key == KEY_NUM_6)   // rotate y-
+        rotation_applied = rotate_object_y(data->selected_object, angle);
+	if (rotation_applied)
+        data->needs_update = true;
+}
 
 static void	key_objects(int key, t_data *data)
 {
@@ -34,7 +55,11 @@ static void	key_objects(int key, t_data *data)
         change_r_h(data, data->selected_object, -1.f, 'h');
     else if (key == KEY_APOSTROPHE)
         change_r_h(data, data->selected_object, 1.f, 'h');
+	else
+		key_object_rotation(key, data);
 }
+
+
 
 static void	keys_camera(int key, t_data *data)
 {
@@ -89,42 +114,7 @@ int	key_hook(int key, t_data *data)
 	else if (key == KEY_MINUS)
 		select_prev_object(data);
 	if (data->selected_object)
-		key_objects(key, data);
-	/*			not refactored		*/
-	// object rotation functions (could be cleaned and DRYed later)
-	if (key == KEY_NUM_8 && data->selected_object)  // rotate x+
-	{
-		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
-		{
-			rotate_object_x(data->selected_object, 0.1f);
-			data->needs_update = true; // i may move this line inside the function
-		}
-	}
-	else if (key == KEY_NUM_2 && data->selected_object)  // rotate x-
-	{
-		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
-		{
-			rotate_object_x(data->selected_object, -0.1f);
-			data->needs_update = true;
-		}
-	}
-	else if (key == KEY_NUM_4 && data->selected_object)  // rotate y+
-	{
-		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
-		{
-			rotate_object_y(data->selected_object, -0.1f);
-			data->needs_update = true;
-		}
-	}
-	else if (key == KEY_NUM_6 && data->selected_object)  // rotate y-
-	{
-		if (data->selected_object->type == PLANE || data->selected_object->type == CYLINDER)
-		{
-			rotate_object_y(data->selected_object, 0.1f);
-			data->needs_update = true;
-		}
-	}
-
+		key_objects(key, data); // this now handles all
 	if (data->needs_update)
 	{
 		init_viewport(data);

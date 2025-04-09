@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/09 07:10:38 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/09 08:55:03 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,9 +274,9 @@ void	change_r_h(t_data *data, t_obj *obj, float coef, char r_h);
 //rotation
 void				rotate_camera_yaw(t_data *data, float angle);
 void				rotate_camera_pitch(t_data *data, float angle);
-void				rotate_object_x(t_obj *obj, float angle);
-void				rotate_object_y(t_obj *obj, float angle);
-void				rotate_object_z(t_obj *obj, float angle);
+bool				rotate_object_x(t_obj *obj, float angle);
+bool				rotate_object_y(t_obj *obj, float angle);
+// void				rotate_object_z(t_obj *obj, float angle);
 //selection
 
 void				select_next_object(t_data *data);
