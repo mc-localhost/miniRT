@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/09 07:06:27 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/09 07:10:38 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@
 //object resizing
 # define KEY_LEFT_BRACKET    33
 # define KEY_RIGHT_BRACKET   30
+
+# define KEY_SEMICOLON 41
+# define KEY_APOSTROPHE 39
 
 typedef enum e_type
 {

@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/09 07:05:41 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/09 07:13:10 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ static void	key_objects(int key, t_data *data)
 		change_r_h(data, data->selected_object, -1.f, 'r');
 	else if (key == KEY_RIGHT_BRACKET)
 		change_r_h(data, data->selected_object, 1.f, 'r');
-	//somewhere here should be cylinder height manipulation
-	//change_r_h(data, data->selected_object, -1.f, 'h');
-	//change_r_h(data, data->selected_object, 1.f, 'h');
+	else if (key == KEY_SEMICOLON)
+        change_r_h(data, data->selected_object, -1.f, 'h');
+    else if (key == KEY_APOSTROPHE)
+        change_r_h(data, data->selected_object, 1.f, 'h');
 }
 
 static void	keys_camera(int key, t_data *data)
