@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/08 15:54:52 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:03:41 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_obj	*parse_obj_params(char **s, t_type type)
 	colour = parse_obj_colour(s, type);
 	if (!validate_colour(colour))
 		return (NULL);
-	//obj shoulod only be created if all vectors and floats and colours are good
+	//obj should only be created if all vectors and floats and colours are good
 	//ft_atofs unchecked
 	//parse_vector unchecked
 	if (type == SPHERE)
