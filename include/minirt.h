@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/09 08:55:03 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:23:27 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@
 # define KEY_NUM_2           84
 # define KEY_NUM_4           86
 # define KEY_NUM_6           88
+# define KEY_NUM_7           89
 # define KEY_NUM_8           91
+# define KEY_NUM_9           92
 
 //light translation
 #define KEY_T 17
@@ -276,7 +278,7 @@ void				rotate_camera_yaw(t_data *data, float angle);
 void				rotate_camera_pitch(t_data *data, float angle);
 bool				rotate_object_x(t_obj *obj, float angle);
 bool				rotate_object_y(t_obj *obj, float angle);
-// void				rotate_object_z(t_obj *obj, float angle);
+bool				rotate_object_z(t_obj *obj, float angle);
 //selection
 
 void				select_next_object(t_data *data);

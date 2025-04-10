@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 06:02:24 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/09 08:54:20 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:21:56 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,20 @@ bool rotate_object_y(t_obj *obj, float angle)
 	return (true);
 }
 
-// void rotate_object_z(t_obj *obj, float angle)
-// {
-//     float x;
-//     float y;
+bool rotate_object_z(t_obj *obj, float angle)
+{
+    float x;
+    float y;
 
-// 	x = obj->norm.x;
-// 	y = obj->norm.y;
-//     obj->norm.x = x * cosf(angle) - y * sinf(angle);
-//     obj->norm.y = x * sinf(angle) + y * cosf(angle);
-//     obj->norm = v_unit(obj->norm);
+    if (obj->type != PLANE && obj->type != CYLINDER)
+        return false;
+    x = obj->norm.x;
+    y = obj->norm.y;
+    obj->norm.x = x * cosf(angle) - y * sinf(angle);
+    obj->norm.y = x * sinf(angle) + y * cosf(angle);
+    obj->norm = v_unit(obj->norm);
     
-//     printf("Object normal after Y rotation: (%f, %f, %f)\n", 
-//            obj->norm.x, obj->norm.y, obj->norm.z);
-// }
+    printf("Object normal after Z rotation: (%f, %f, %f)\n", 
+           obj->norm.x, obj->norm.y, obj->norm.z);
+    return (true);
+}

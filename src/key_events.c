@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 00:00:55 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/09 08:45:57 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/10 09:25:15 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@ static void key_object_rotation(int key, t_data *data)
 
 	rotation_applied = false;
 	angle = 0.1f;
-	if (data->selected_object->type != PLANE && data->selected_object->type != CYLINDER)
-		return;
 	if (key == KEY_NUM_8)
 		rotation_applied = rotate_object_x(data->selected_object, angle);
 	else if (key == KEY_NUM_2)   // rotate x-
         rotation_applied = rotate_object_x(data->selected_object, -angle);
     else if (key == KEY_NUM_4)   // rotate y+
         rotation_applied = rotate_object_y(data->selected_object, -angle);
-    else if (key == KEY_NUM_6)   // rotate y-
+    else if (key == KEY_NUM_6)   // rotate ay-
         rotation_applied = rotate_object_y(data->selected_object, angle);
+	else if (key == KEY_NUM_7)
+        rotation_applied = rotate_object_z(data->selected_object, -angle);
+    else if (key == KEY_NUM_9)
+        rotation_applied = rotate_object_z(data->selected_object, angle);
 	if (rotation_applied)
         data->needs_update = true;
 }
