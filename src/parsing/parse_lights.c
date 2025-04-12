@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/12 02:09:23 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:46:20 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	parse_ambient(char *line, t_scene *scene)
 	if (!s)
 		return (EXIT_FAILURE);
 	if (!is_valid_float(s[1]))
-		return (free_and_error(s, "Error\nInvalid format for ambient light ratio"));
+		return (free_and_error(s,
+				"Error\nInvalid format for ambient light ratio"));
 	ratio = ft_atof(s[1]);
 	if (!is_valid_ratio(ratio))
 		return (free_and_error(s, "Error\nInvalid ambient light ratio"));

@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:57 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/12 01:44:52 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:10:19 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,20 @@ int	error_message(char *str)
 	return (EXIT_FAILURE);
 }
 
-t_obj *error_return_null(char *err_msg)
+t_obj	*error_return_null(char *err_msg)
 {
-    ft_putendl_fd(err_msg, 2);
-    return (NULL);
+	ft_putendl_fd(err_msg, 2);
+	return (NULL);
 }
 
 int	free_and_error(char **split, char *msg)
 {
-    free_split(split);
-    return (error_message(msg));
+	free_split(split);
+	return (error_message(msg));
+}
+
+char	**error_return_null_char(char *msg)
+{
+	ft_putendl_fd(msg, 2);
+	return (NULL);
 }

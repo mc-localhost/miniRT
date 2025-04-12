@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/12 01:25:25 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:51:05 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,10 +229,12 @@ t_hit				hit_cylinder(t_ray r, t_obj *cy);
 
 /*		ERRORS		*/
 int					error_message(char *str);
+char				**error_return_null_char(char *msg);
 
 /*		UTILS		*/
 t_obj				*create_object(t_type type, t_vec3 norm, float diameter, float h);
 void				add_object(t_obj **list, t_obj *new_obj);
+char				*normalize_whitespace(const char *str);
 // void				setup_scene(t_scene *scene);
 
 /*		PARSING		*/
@@ -252,6 +254,9 @@ void				free_split(char **split);
 // int				parse_plane(char *line, t_scene *scene);
 // int				parse_cylinder(char *line, t_scene *scene);
 int	parse_obj(char *line, t_scene *scene, t_type type);
+t_obj	*create_sphere(char **s);
+t_obj	*create_plane(char **s);
+t_obj	*create_cylinder(char **s);
 
 char	**validate_params(char *line, int param_count, char *err_msg);
 t_obj	*parse_obj_params(char **s, t_type type);
@@ -287,6 +292,7 @@ bool				rotate_object_z(t_obj *obj, float angle);
 
 void				select_next_object(t_data *data);
 void				select_prev_object(t_data *data);
+void				print_obj_info(t_obj *obj);
 
 /*		CLEANUP		*/
 int					clean_exit(t_data *data);

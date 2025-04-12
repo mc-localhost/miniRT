@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 23:48:58 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/12 00:33:28 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:45:50 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,34 @@ bool	is_valid_ratio(float f)
 
 bool	is_normalized(t_vec3 v)
 {
-	float len = v_len(v);
+	float	len;
+
+	len = v_len(v);
 	return (fabs(len - 1.0f) < 1e-6);
 }
 
 bool	is_valid_float(char *str)
 {
-    int	i;
-    int	dot_count;
-    int	digit_found;
+	int	i;
+	int	dot_count;
+	int	digit_found;
 
-    if (!str || !*str)
-        return (false);
-    i = 0;
-    dot_count = 0;
-    digit_found = 0;
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    while (str[i])
-    {
-        if (ft_isdigit(str[i]))
-            digit_found = 1;
-        else if (str[i] == '.')
-        {
-            dot_count++;
-            if (dot_count > 1)
-                return (false);
-        }
-        else
-            return (false);
-        i++;
-    }
-    return (digit_found);
+	if (!str || !*str)
+		return (false);
+	i = 0;
+	dot_count = 0;
+	digit_found = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]))
+			digit_found = 1;
+		else if (str[i] == '.' && ++dot_count > 1)
+			return (false);
+		else if (str[i] != '.')
+			return (false);
+		i++;
+	}
+	return (digit_found);
 }

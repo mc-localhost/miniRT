@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/11 19:55:09 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:17:08 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_viewport(t_data *data)
 	t_vec3	world_up;
 
 	world_up = (t_vec3){0.f, 1.f, 0.f};
-	w = data->scene->camera.norm; //check if normalised when parsing and apply v_unit if not
+	w = data->scene->camera.norm;
 	u = v_unit(v_cross(world_up, w));
 	v = v_cross(w, u);
 	data->viewport_h = 2 * data->focal_len * tanf(data->scene->camera.fov_rad
@@ -48,14 +48,13 @@ int	init_data(t_data *data, char *file)
 		return (error_message("Error\nwrong file extension: must be .rt"));
 	if (parse_scene_file(file, data->scene))
 		return (EXIT_FAILURE);
-	// return error_message("Error\nparsing file failed");
 	if (WIDTH <= 100 || HEIGHT <= 100 || WIDTH > 3840 || HEIGHT > 2160)
-    	return (error_message("Error\nwindow dimensions must be between 100x100 and 3840x2160"));
+		return (error_message("Error\nwindow dimensions must \
+			be between 100x100 and 3840x2160"));
 	data->w = WIDTH;
 	data->h = HEIGHT;
 	data->aspect_ratio = (float)data->w / data->h;
 	data->focal_len = 1.f;
-	// init camera movement parameters
 	data->move_speed = 1.0f;
 	data->needs_update = false;
 	data->rotate_speed = 0.05f;

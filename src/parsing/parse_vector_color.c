@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_vector_color.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 23:49:12 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/08 15:13:50 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/12 14:58:37 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_colour	parse_colour(char *string)
 	{
 		if (s)
 			free_split(s);
-		return (INVALID_COL);  //check the outer check
+		return (INVALID_COL);
 	}
 	free_split(s);
 	return (c);
@@ -41,10 +41,9 @@ t_vec3	parse_vector(char *string)
 	if (!s || !s[0] || !s[1] || !s[2] || s[3])
 	{
 		free_split(s);
-		return (INVALID_VEC3); //check the outer check
+		return (INVALID_VEC3);
 	}
 	parsed_vector.x = ft_atof(s[0]);
-		// have to double check the robustness of ft_atof
 	parsed_vector.y = ft_atof(s[1]);
 	parsed_vector.z = ft_atof(s[2]);
 	free_split(s);
@@ -55,9 +54,7 @@ bool	validate_colour(t_colour colour)
 {
 	if (colour.r < 0 || colour.r > 255 || colour.g < 0 || colour.g > 255
 		|| colour.b < 0 || colour.b > 255)
-	{
-		return (false);  //check the outer check
-	}
+		return (false);
 	return (true);
 }
 

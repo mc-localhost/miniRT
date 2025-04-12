@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/11 13:47:45 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 17:09:45 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ int	clean_exit(t_data *data)
 		mlx_destroy_window(data->mlx, data->window);
 	if (data->mlx)
 		free(data->mlx);
-	// + free everything else before exiting
 	if (data->scene)
 		free_scene(data->scene);
 	exit(0);
 }
-

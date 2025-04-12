@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_objects.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/08 14:45:55 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/12 02:14:44 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static bool	in_shadow(t_data *data, t_vec3 point, t_light light)
 	}
 	return (false);
 }
-
-/* black colour is set by default for closest_hit*/
 
 static t_hit	find_closest_hit(t_data *data, t_ray ray)
 {

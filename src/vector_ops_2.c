@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_ops_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:15 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/23 11:15:25 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:39:01 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ float	v_len(t_vec3 vec)
 
 t_vec3	v_unit(t_vec3 vec)
 {
-	return (v_scale(vec, 1.f / v_len(vec))); //add 0 check to avoid division by 0
+	float	len;
+
+	len = v_len(vec);
+	if (len < 1e-8f)
+		return ((t_vec3){0, 0, 0});
+	return (v_scale(vec, 1.f / len));
 }
 
 t_vec3	v_at(t_ray ray, float t)

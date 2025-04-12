@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/12 01:45:16 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 20:51:22 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,18 @@ char	**validate_params(char *line, int param_count, char *err_msg)
 {
 	char	**s;
 	int		i;
+	char	*trimmed;
+	char	*normalized;
 
-	s = ft_split(line, ' ');
+	trimmed = ft_strtrim(line, " \t\n\r\f\v");
+	if (!trimmed)
+		return (NULL);
+	normalized = normalize_whitespace(trimmed);
+	free(trimmed);
+	if (!normalized)
+		return (NULL);
+	s = ft_split(normalized, ' ');
+	free(normalized);
 	if (!s)
 		return (NULL);
 	i = 0;
@@ -26,8 +36,7 @@ char	**validate_params(char *line, int param_count, char *err_msg)
 	if (i != param_count)
 	{
 		free_split(s);
-		ft_putendl_fd(err_msg, 2);
-		return (NULL);
+		return (error_return_null_char(err_msg));
 	}
 	return (s);
 }
@@ -46,101 +55,51 @@ static t_colour	parse_obj_colour(char **s, t_type type)
 	return (colour);
 }
 
-static int	validate_vectors(char **s, t_type type, t_vec3 *center, t_vec3 *normal)
+static int	validate_vectors(char **s, t_type type, t_vec3 *center,
+		t_vec3 *normal)
 {
-    *center = parse_vector(s[1]);
-    if (isnan(center->x))
-        return (error_message("Error\nInvalid center vector"));
-    
-    if (type == PLANE || type == CYLINDER)
-    {
-        *normal = parse_vector(s[2]);
-        if (isnan(normal->x))
-            return (error_message("Error\nInvalid normal/axis vector"));
-        if (v_len(*normal) < 0.01f || !is_normalized(*normal))
-            return (error_message("Error\nNormal/axis vector must be normalized / cannot be zero"));
-    }
-    return (EXIT_SUCCESS);
-}
-
-static t_obj	*create_sphere(char **s)
-{
-    double	value;
-    t_obj	*obj;
-
-    if (!is_valid_float(s[2]))
-        return (error_return_null("Error\nInvalid format for sphere radius"));
-    value = ft_atof(s[2]);
-    if (value <= 0.0)
-        return (error_return_null("Error\nSphere radius must be positive"));
-    obj = create_object(SPHERE, (t_vec3){0, 0, 0}, value, 0);
-    return (obj);
-}
-
-static t_obj	*create_plane(char **s)
-{
-    t_vec3	normal;
-    
-    normal = parse_vector(s[2]);
-    return (create_object(PLANE, v_unit(normal), 0, 0));
-}
-
-static t_obj	*create_cylinder(char **s)
-{
-    double	radius;
-    double	height;
-    t_obj	*obj;
-    t_vec3	normal;
-
-    normal = parse_vector(s[2]);
-    if (!is_valid_float(s[3]))
-        return (error_return_null("Error\nInvalid format for cylinder radius"));
-    radius = ft_atof(s[3]);
-    if (radius <= 0.0)
-        return (error_return_null("Error\nCylinder radius must be positive"));
-    
-    if (!is_valid_float(s[4]))
-        return (error_return_null("Error\nInvalid format for cylinder height"));
-    height = ft_atof(s[4]);
-    if (height <= 0.0)
-        return (error_return_null("Error\nCylinder height must be positive"));
-    
-    obj = create_object(CYLINDER, v_unit(normal), radius, 0);
-    if (obj)
-        obj->h = height;
-    return (obj);
+	*center = parse_vector(s[1]);
+	if (isnan(center->x))
+		return (error_message("Error\nInvalid center vector"));
+	if (type == PLANE || type == CYLINDER)
+	{
+		*normal = parse_vector(s[2]);
+		if (isnan(normal->x))
+			return (error_message("Error\nInvalid normal/axis vector"));
+		if (v_len(*normal) < 0.01f || !is_normalized(*normal))
+			return (error_message("Error\nNormal/axis vector must be \
+				normalized / cannot be zero"));
+	}
+	return (EXIT_SUCCESS);
 }
 
 t_obj	*parse_obj_params(char **s, t_type type)
 {
-    t_obj		*obj;
-    t_vec3		center;
-    t_vec3		normal;
-    t_colour	colour;
+	t_obj		*obj;
+	t_vec3		center;
+	t_vec3		normal;
+	t_colour	colour;
 
-    if (!s)
-        return (error_return_null("Error\nNull input parameters"));
-    obj = NULL;
-    if (validate_vectors(s, type, &center, &normal) != EXIT_SUCCESS)
-        return (NULL);
-    
-    colour = parse_obj_colour(s, type);
-    if (!validate_colour(colour))
-        return (error_return_null("Error\nInvalid colour specification"));
-
-    if (type == SPHERE)
-        obj = create_sphere(s);
-    else if (type == PLANE)
-        obj = create_plane(s);
-    else if (type == CYLINDER)
-        obj = create_cylinder(s);
-    
-    if (!obj)
-        return (error_return_null("Error\nFailed to create object"));
-    obj->center = center;
-    obj->point = center;
-    obj->colour = colour;
-    return (obj);
+	if (!s)
+		return (error_return_null("Error\nNull input parameters"));
+	obj = NULL;
+	if (validate_vectors(s, type, &center, &normal) != EXIT_SUCCESS)
+		return (NULL);
+	colour = parse_obj_colour(s, type);
+	if (!validate_colour(colour))
+		return (error_return_null("Error\nInvalid colour specification"));
+	if (type == SPHERE)
+		obj = create_sphere(s);
+	else if (type == PLANE)
+		obj = create_plane(s);
+	else if (type == CYLINDER)
+		obj = create_cylinder(s);
+	if (!obj)
+		return (error_return_null("Error\nFailed to create object"));
+	obj->center = center;
+	obj->point = center;
+	obj->colour = colour;
+	return (obj);
 }
 
 int	parse_obj(char *line, t_scene *scene, t_type type)
@@ -168,72 +127,3 @@ int	parse_obj(char *line, t_scene *scene, t_type type)
 	free_split(s);
 	return (EXIT_SUCCESS);
 }
-
-
-// t_obj	*parse_obj_params(char **s, t_type type)
-// {
-// 	t_obj		*obj;
-// 	t_vec3		center;
-// 	t_vec3		normal;
-// 	t_colour	colour;
-// 	double		value;
-
-// 	if (!s)
-// 		return (error_return_null("Error\nNull input parameters")); // do we need this?
-// 	obj = NULL;
-// 	center = parse_vector(s[1]);
-// 	if (isnan(center.x))
-// 		return (error_return_null("Error\nInvalid center vector"));
-// 	colour = parse_obj_colour(s, type);
-// 	if (!validate_colour(colour))
-// 		return (error_return_null("Error\nInvalid colour specification"));
-// 	if (type == PLANE || type == CYLINDER)
-// 	{
-// 		normal = parse_vector(s[2]);
-// 		if (isnan(normal.x))
-// 			return (error_return_null("Error\nInvalid normal/axis vector"));
-// 		if (v_len(normal) < 0.01f || !is_normalized(normal))
-// 			return (error_return_null("Error\nNormal/axis vector must be normalized / cannot be zero"));
-// 	}
-// 	//obj should only be created if all vectors and floats and colours are good
-// 	//ft_atofs unchecked
-// 	//parse_vector unchecked
-// 	if (type == SPHERE)
-// 	{
-// 		if (!is_valid_float(s[2]))
-// 			return (error_return_null("Error\nInvalid format for sphere radius"));
-// 		value = ft_atof(s[2]);
-// 		if (value <= 0.0)
-// 			return (error_return_null("Error\nSphere radius must be positive"));
-// 		obj = create_object(SPHERE, (t_vec3){0, 0, 0}, value, 0);
-// 	}
-// 		else if (type == PLANE)
-// 			obj = create_object(PLANE, v_unit(parse_vector(s[2])), 0, 0);
-// 		else if (type == CYLINDER)
-// 		{
-// 			if (!is_valid_float(s[3]))
-// 				return (error_return_null("Error\nInvalid format for cylinder radius"));
-// 			value = ft_atof(s[3]);
-// 			if (value <= 0.0)
-// 				return (error_return_null("Error\nCylinder radius must be positive"));
-// 			obj = create_object(CYLINDER, v_unit(parse_vector(s[2])), value, 0);
-// 			if (!is_valid_float(s[4]))
-// 			{
-// 				free(obj);
-// 				return (error_return_null("Error\nInvalid format for cylinder height"));
-// 			}
-// 			value = ft_atof(s[4]);
-// 			if (value <= 0.0)
-// 			{
-// 				free(obj);
-// 				return (error_return_null("Error\nCylinder height must be positive"));
-// 			}
-// 			obj->h = value;
-// 		}
-// 	if (!obj)
-// 		return (error_return_null("Error\nFailed to create object"));
-// 		obj->center = center;
-// 		obj->point = center;
-// 		obj->colour = colour;
-// 	return (obj);
-// }

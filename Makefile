@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
+#    By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/20 10:43:19 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/04/08 15:06:11 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/04/12 20:52:43 by ykhattab         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,9 @@ LIBFT_FLAGS		= -Llibft
 MINILIBX		= mlx/libmlx.a
 MLX_FLAGS		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 LFLAGS			= $(MLX_FLAGS) $(LIBFT_FLAGS)
-FILES			= cleanup error main parse utils key_events \
+FILES			= cleanup error main parse utils key_events key_events_2 \
 				vector_ops vector_ops_2 vector_ops_inplace colour \
-				parsing/parse_lights parsing/parse_objects parsing/parse_scene parsing/parse_vector_color parsing/parsing_utils \
+				parsing/parse_lights parsing/parse_objects parsing/parse_scene parsing/parse_vector_color parsing/parsing_utils parsing/create_objects \
 				hit_objects put_pixels sphere cylinder plane \
 				change_r_h \
 				translate_obj translate_camera translate_light \
