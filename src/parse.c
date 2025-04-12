@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/06 23:56:43 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:54:45 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,44 +39,35 @@ int open_file(const char *filename)
 
 int parse_scene_file(const char *filename, t_scene *scene)
 {
-    int fd;
-    char *line;
-	int ambient_found = 0;
-	int camera_found = 0;
-	int light_found = 0;
-	
-	fd = open_file(filename);
-	if (fd < 0)
-		return (error_message("Error\nFailed to open file."));
+    int		fd;
+    char	*line;
+    int		counts[3] = {0, 0, 0}; // A, C, L
+
+    fd = open_file(filename);
+    if (fd < 0)
+        return (error_message("Error\nFailed to open file."));
     scene->objects = NULL;
     while ((line = get_next_line(fd)) != NULL)
     {
-        // skip empty and commented out lines
-        if (line[0] != '\0' && line[0] != '\n' && line[0] != '#') 
+        if (line[0] && line[0] != '\n' && line[0] != '#')
         {
-			if (parse_line(line, scene))
-				{
-					free(line);
-					close(fd);
-					free_scene(scene); // recheck if we are double freeing
-					return error_message("Error\nfailed to parse line.");
-				}
-				if (line[0] == 'A')
-					ambient_found++;
-				else if (line[0] == 'C')
-					camera_found++;
-				else if (line[0] == 'L')
-					light_found++;
-			}
+            if (parse_line(line, scene))
+            {
+                free(line);
+                close(fd);
+                return (EXIT_FAILURE);
+            }
+            if (line[0] == 'A')
+				counts[0]++;
+            else if (line[0] == 'C')
+				counts[1]++;
+            else if (line[0] == 'L')
+				counts[2]++;
+        }
         free(line);
     }
-	if (ambient_found != 1)
-		return error_message("Error\nExpected exactly one ambient object.");
-	if (camera_found != 1)
-		return error_message("Error\nExpected exactly one camera object.");
-	if (light_found != 1)
-		return error_message("Error\nExpected exactly one light object.");
-	
     close(fd);
-	return (EXIT_SUCCESS);
+    if (counts[0] != 1 || counts[1] != 1 || counts[2] != 1)
+        return (error_message("Error\nExpected exactly one ambient/camera/light object."));
+    return (EXIT_SUCCESS);
 }

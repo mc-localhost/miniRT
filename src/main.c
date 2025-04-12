@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:43 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/08 15:00:53 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:55:09 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,14 @@ void	init_viewport(t_data *data)
 
 int	init_data(t_data *data, char *file)
 {
-	if (rt_file(file) != 0)
-		return (error_message("Error\nwrong file extension: must be .rt"));
 	data->scene = (t_scene *)calloc(1, sizeof(t_scene));
 	if (!data->scene)
 		return (error_message("Error\nmemory allocation failed"));
+	if (rt_file(file) != 0)
+		return (error_message("Error\nwrong file extension: must be .rt"));
 	if (parse_scene_file(file, data->scene))
-		return error_message("Error\nparsing file failed");
-	
-	// setup_scene(data->scene);
+		return (EXIT_FAILURE);
+	// return error_message("Error\nparsing file failed");
 	if (WIDTH <= 100 || HEIGHT <= 100 || WIDTH > 3840 || HEIGHT > 2160)
     	return (error_message("Error\nwindow dimensions must be between 100x100 and 3840x2160"));
 	data->w = WIDTH;

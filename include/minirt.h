@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/10 09:23:27 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/12 01:25:25 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,10 @@ typedef struct s_data
 
 /*		MAIN		*/
 int					error_message(char *str);
+t_obj				*error_return_null(char *err_msg);
 int					init_data(t_data *data, char *file);
 void				init_viewport(t_data *data);
+int					free_and_error(char **split, char *msg);
 
 
 /*		COLOUR		*/
@@ -262,6 +264,8 @@ int					parse_line(char *line, t_scene *scene);
 int					parse_camera(char *line, t_scene *scene);
 bool				is_number(char *str);
 bool				is_valid_ratio(float f);
+bool				is_valid_float(char *str);
+bool				is_normalized(t_vec3 v);
 
 
 // movement
@@ -269,9 +273,9 @@ void				move_camera_forward(t_data *data, float distance);
 void				move_camera_sideways(t_data *data, float distance);
 void				move_camera_vertical(t_data *data, float distance);
 
-void	move_obj(t_data *data, t_obj *obj, float coef, char dir);
-void	move_light(t_data *data, t_light *light, float coef, char dir);
-void	change_r_h(t_data *data, t_obj *obj, float coef, char r_h);
+void				move_obj(t_data *data, t_obj *obj, float coef, char dir);
+void				move_light(t_data *data, t_light *light, float coef, char dir);
+void				change_r_h(t_data *data, t_obj *obj, float coef, char r_h);
 
 //rotation
 void				rotate_camera_yaw(t_data *data, float angle);

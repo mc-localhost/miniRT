@@ -6,50 +6,13 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/07 00:00:43 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:47:45 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-// void	free_scene(t_scene *scene) // maybe switch to garbage collector later
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (scene->num_sp > 0)
-// 	{
-// 		while (i < scene->num_sp)
-// 		{
-// 			free(scene->spheres[i]);
-// 			i++;
-// 		}
-// 		free(scene->spheres);
-// 	}
-// 	i = 0;
-// 	if (scene->num_pl > 0)
-// 	{
-// 		while (i < scene->num_pl)
-// 		{
-// 			free(scene->planes[i]);
-// 			i++;
-// 		}
-// 		free(scene->planes);
-// 	}
-// 	i = 0;
-// 	if (scene->num_cy > 0)
-// 	{
-// 		while (i < scene->num_cy)
-// 		{
-// 			free(scene->cylinders[i]);
-// 			i++;
-// 		}
-// 		free(scene->cylinders);
-// 	}
-// 	free(scene);
-// }
-
-void	free_scene(t_scene *scene) // maybe switch to garbage collector later
+void	free_scene(t_scene *scene)
 {
 	t_obj	*current;
 	t_obj	*next;
