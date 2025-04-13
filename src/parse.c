@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/12 18:25:00 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 11:45:46 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	parse_scene_file(const char *filename, t_scene *scene)
 	int		result;
 
 	init_counts(counts);
-	fd = open_file(filename);
+	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (error_message("Error\nFailed to open file."));
 	scene->objects = NULL;

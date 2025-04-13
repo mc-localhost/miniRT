@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 05:07:44 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/12 21:00:03 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:25:23 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,19 @@ int	parse_camera(char *line, t_scene *scene)
 	char	**s;
 	t_vec3	norm_vector;
 
-	s = ft_split(line, ' ');
-	if (!s || !s[1] || !s[2] || !s[3])
-		return (free_and_error(s, "Error\nCamera line missing parameters"));
+	s = validate_params(line, 4, "Error\nCamera line has wrong parameters");
+	if (!s)
+		return (EXIT_FAILURE);
 	scene->camera.view_point = parse_vector(s[1]);
 	norm_vector = parse_vector(s[2]);
+	if (isnan(scene->camera.view_point.x) || isnan(norm_vector.x))
+		return (free_and_error(s, "Error\nInvalid camera vector"));
 	if (v_len(norm_vector) < 0.01f || !is_normalized(norm_vector))
 		return (free_and_error(s,
-				"Error\nCamera norm vector must be normalized \
-					/ cannot be zero"));
+				"Error\nCamera norm vector must be normalized"));
 	scene->camera.norm = v_unit(norm_vector);
+	if (!is_number(s[3]))
+		return (free_and_error(s, "Error\nCamera FOV must be a number"));
 	scene->camera.fov_deg = ft_atoi(s[3]);
 	if (scene->camera.fov_deg < 0 || scene->camera.fov_deg > 180)
 		return (free_and_error(s,

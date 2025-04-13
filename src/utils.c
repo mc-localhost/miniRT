@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:43:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/12 18:56:41 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:04:14 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,4 @@ int	rt_file(char *file)
 	if (len < 3)
 		return (EXIT_FAILURE);
 	return (ft_strncmp(file + len - 3, ".rt", 3));
-}
-
-int	open_file(const char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1) // is already checked in the outer function - open_file can be completely removed
-	{
-		ft_putstr_stderr("Error\nFailed to open file");
-		return (-1);
-	}
-	return (fd);
 }

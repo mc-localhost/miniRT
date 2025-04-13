@@ -6,68 +6,67 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:42:53 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/04/12 20:51:05 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:32:45 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-
 # include "../libft/libft.h"
+# include <fcntl.h>
 # include <math.h>
 # include <mlx/mlx.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
 
 # define WIDTH 600
 # define HEIGHT 300
 # define INVALID_VEC3 ((t_vec3){NAN, NAN, NAN})
-# define INVALID_COL (t_colour){-1, -1, -1, -1.0f}
+# define INVALID_COL  (t_colour){-1, -1, -1, -1.0f}
 
 // Key codes for MacOS
-# define KEY_ESC     53
-# define KEY_W       13
-# define KEY_A       0
-# define KEY_S       1
-# define KEY_D       2
-# define KEY_Q       12
-# define KEY_E       14
-# define KEY_LEFT    123
-# define KEY_RIGHT   124
-# define KEY_UP      126
-# define KEY_DOWN	125
-# define KEY_PLUS	24
-# define KEY_MINUS	27
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_Q 12
+# define KEY_E 14
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define KEY_PLUS 24
+# define KEY_MINUS 27
 
 // object translation keys
-# define KEY_I       34
-# define KEY_K       40
-# define KEY_J       38
-# define KEY_L       37
-# define KEY_U       32
-# define KEY_O       31
+# define KEY_I 34
+# define KEY_K 40
+# define KEY_J 38
+# define KEY_L 37
+# define KEY_U 32
+# define KEY_O 31
 //for object rotation direction
-# define KEY_NUM_2           84
-# define KEY_NUM_4           86
-# define KEY_NUM_6           88
-# define KEY_NUM_7           89
-# define KEY_NUM_8           91
-# define KEY_NUM_9           92
+# define KEY_NUM_2 84
+# define KEY_NUM_4 86
+# define KEY_NUM_6 88
+# define KEY_NUM_7 89
+# define KEY_NUM_8 91
+# define KEY_NUM_9 92
 
 //light translation
-#define KEY_T 17
-#define KEY_G 5
-#define KEY_F 3
-#define KEY_H 4
-#define KEY_R 15
-#define KEY_Y 16
+# define KEY_T 17
+# define KEY_G 5
+# define KEY_F 3
+# define KEY_H 4
+# define KEY_R 15
+# define KEY_Y 16
 
 //object resizing
-# define KEY_LEFT_BRACKET    33
-# define KEY_RIGHT_BRACKET   30
+# define KEY_LEFT_BRACKET 33
+# define KEY_RIGHT_BRACKET 30
 
 # define KEY_SEMICOLON 41
 # define KEY_APOSTROPHE 39
@@ -91,7 +90,6 @@ typedef struct s_colour
 	int				r;
 	int				g;
 	int				b;
-	// for lights' brightness and ratio
 	float			ratio;
 }					t_colour;
 
@@ -169,19 +167,19 @@ typedef struct s_data
 	//------ viewport -------
 	float			aspect_ratio;
 	float			focal_len;
-	float			viewport_h; //can be a var in function
-	float			viewport_w; //can be a var in function
-	t_vec3			viewport_u; //can be a var in function
-	t_vec3			viewport_v; //can be a var in function
-	t_vec3			viewport_u_l; //can be a var in function
+	float viewport_h;    //can be a var in function
+	float viewport_w;    //can be a var in function
+	t_vec3 viewport_u;   //can be a var in function
+	t_vec3 viewport_v;   //can be a var in function
+	t_vec3 viewport_u_l; //can be a var in function
 	t_vec3			pixel_delta_u;
 	t_vec3			pixel_delta_v;
 	t_vec3			pixel00_loc;
 	//------ transformations -------
-	float			move_speed; // units per keypress for translation
-	float			rotate_speed; // radians per key press
-	bool			needs_update; // when the scene needs to be rerendered
-	t_obj			*selected_object; //currently selected object
+	float move_speed;       // units per keypress for translation
+	float rotate_speed;     // radians per key press
+	bool needs_update;      // when the scene needs to be rerendered
+	t_obj *selected_object; //currently selected object
 }					t_data;
 
 /*		MAIN		*/
@@ -190,7 +188,6 @@ t_obj				*error_return_null(char *err_msg);
 int					init_data(t_data *data, char *file);
 void				init_viewport(t_data *data);
 int					free_and_error(char **split, char *msg);
-
 
 /*		COLOUR		*/
 int					rgb_to_int(t_colour c);
@@ -232,15 +229,15 @@ int					error_message(char *str);
 char				**error_return_null_char(char *msg);
 
 /*		UTILS		*/
-t_obj				*create_object(t_type type, t_vec3 norm, float diameter, float h);
+t_obj				*create_object(t_type type, t_vec3 norm, float diameter,
+						float h);
 void				add_object(t_obj **list, t_obj *new_obj);
 char				*normalize_whitespace(const char *str);
 // void				setup_scene(t_scene *scene);
 
 /*		PARSING		*/
 int					rt_file(char *file);
-int					open_file(const char *filename);
-int				parse_scene_file(const char *filename, t_scene *scene);
+int					parse_scene_file(const char *filename, t_scene *scene);
 
 // parse_vector_color.c
 t_vec3				parse_vector(char *string);
@@ -249,20 +246,18 @@ bool				validate_colour(t_colour colour);
 bool				is_valid_component(char *str, int *out);
 void				free_split(char **split);
 
-// parse_objects.c
-// int				parse_sphere(char *line, t_scene *scene);
-// int				parse_plane(char *line, t_scene *scene);
-// int				parse_cylinder(char *line, t_scene *scene);
-int	parse_obj(char *line, t_scene *scene, t_type type);
-t_obj	*create_sphere(char **s);
-t_obj	*create_plane(char **s);
-t_obj	*create_cylinder(char **s);
 
-char	**validate_params(char *line, int param_count, char *err_msg);
-t_obj	*parse_obj_params(char **s, t_type type);
+int					parse_obj(char *line, t_scene *scene, t_type type);
+t_obj				*create_sphere(char **s);
+t_obj				*create_plane(char **s);
+t_obj				*create_cylinder(char **s);
 
-int				parse_ambient(char *line, t_scene *scene);
-int				parse_light(char *line, t_scene *scene);
+char				**validate_params(char *line, int param_count,
+						char *err_msg);
+t_obj				*parse_obj_params(char **s, t_type type);
+
+int					parse_ambient(char *line, t_scene *scene);
+int					parse_light(char *line, t_scene *scene);
 
 // parse_scene.c
 int					parse_line(char *line, t_scene *scene);
@@ -272,14 +267,14 @@ bool				is_valid_ratio(float f);
 bool				is_valid_float(char *str);
 bool				is_normalized(t_vec3 v);
 
-
 // movement
 void				move_camera_forward(t_data *data, float distance);
 void				move_camera_sideways(t_data *data, float distance);
 void				move_camera_vertical(t_data *data, float distance);
 
 void				move_obj(t_data *data, t_obj *obj, float coef, char dir);
-void				move_light(t_data *data, t_light *light, float coef, char dir);
+void				move_light(t_data *data, t_light *light, float coef,
+						char dir);
 void				change_r_h(t_data *data, t_obj *obj, float coef, char r_h);
 
 //rotation

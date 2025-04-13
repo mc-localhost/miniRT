@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 23:49:12 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/12 14:58:37 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:04:52 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ t_vec3	parse_vector(char *string)
 
 	s = ft_split(string, ',');
 	if (!s || !s[0] || !s[1] || !s[2] || s[3])
+	{
+		free_split(s);
+		return (INVALID_VEC3);
+	}
+	if (!is_valid_float(s[0]) || !is_valid_float(s[1]) || !is_valid_float(s[2]))
 	{
 		free_split(s);
 		return (INVALID_VEC3);

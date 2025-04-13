@@ -6,7 +6,7 @@
 /*   By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 04:57:21 by yousef            #+#    #+#             */
-/*   Updated: 2025/04/12 20:46:20 by ykhattab         ###   ########.fr       */
+/*   Updated: 2025/04/13 12:03:49 by ykhattab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	parse_light(char *line, t_scene *scene)
 	if (!s)
 		return (EXIT_FAILURE);
 	scene->light.pos = parse_vector(s[1]);
+	if (isnan(scene->light.pos.x))
+		return (free_and_error(s, "Error\nInvalid light position vector"));
 	if (!is_valid_float(s[2]))
 		return (free_and_error(s, "Error\nInvalid format for light ratio"));
 	ratio = ft_atof(s[2]);
@@ -39,7 +41,7 @@ int	parse_ambient(char *line, t_scene *scene)
 	char	**s;
 	float	ratio;
 
-	s = validate_params(line, 3, "Error\nAmbient line missing parameters");
+	s = validate_params(line, 3, "Error\nAmbient line parameters must be 3");
 	if (!s)
 		return (EXIT_FAILURE);
 	if (!is_valid_float(s[1]))
