@@ -87,7 +87,7 @@ int	open_file(const char *filename)
 	int	fd;
 
 	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1) // is already checked in the outer function - open_file can be completely removed
 	{
 		ft_putstr_stderr("Error\nFailed to open file");
 		return (-1);
