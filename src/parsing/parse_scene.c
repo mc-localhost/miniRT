@@ -18,6 +18,7 @@ static	int	validate_parts(char **parts)
 		return (error_message("Error\nMemory allocation failure"));
 	if (!parts[0] || !*parts[0])
 		return (free_and_error(parts, "Error\nMissing identifier"));
+	return (0);
 }
 
 int	parse_line(char *line, t_scene *scene)
