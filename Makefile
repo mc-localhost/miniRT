@@ -6,13 +6,13 @@
 #    By: ykhattab <ykhattab@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/20 10:43:19 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/04/12 20:52:43 by ykhattab         ###   ########.fr        #
+#    Updated: 2025/04/15 10:19:15 by ykhattab         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= miniRT
 CC      		= cc
-CFLAGS			= -Wall -Werror -Wextra $(HEADERS)
+CFLAGS			= -Wall -Werror -Wextra -Ofast -flto -march=native $(HEADERS)
 HEADERS			= -I./libft -I./vector -I./fdf_utils -I. -I./mlx -I./gnl -I./src/parsing
 LIBFT			= libft/libft.a
 LIBFT_FLAGS		= -Llibft
