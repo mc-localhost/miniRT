@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   translate_obj.c                                    :+:      :+:    :+:   */
+/*   change_r_h.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 01:12:00 by ykhattab          #+#    #+#             */
-/*   Updated: 2025/04/08 13:19:54 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:09:23 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "../../include/minirt.h"
 
-void	move_obj(t_data *data, t_obj *obj, float coef, char dir)
+void	change_r_h(t_data *data, t_obj *obj, float coef, char r_h)
 {
-	float	dist;
-	t_vec3	movement;
-
-	dist = coef * data->move_speed;
-	if (dir == 'x')
-		movement = (t_vec3){dist, 0.0f, 0.0f};
-	else if (dir == 'y')
-		movement = (t_vec3){0.0f, dist, 0.0f};
-	else if (dir == 'z')
-		movement = (t_vec3){0.0f, 0.0f, dist};
 	if (obj->type == SPHERE || obj->type == CYLINDER)
-		v_add_inplace(&obj->center, movement);
-	else if (obj->type == PLANE)
-		v_add_inplace(&obj->point, movement);
-	data->needs_update = true;
+	{
+		if (r_h == 'r')
+		{
+			obj->r += coef * 0.5f;
+			if (obj->r < 0.5f)
+				obj->r = 0.5f;
+		}
+		else
+		{
+			obj->h += coef * 0.5f;
+			if (obj->h < 0.5f)
+				obj->h = 0.5f;
+		}
+		data->needs_update = true;
+	}
 }

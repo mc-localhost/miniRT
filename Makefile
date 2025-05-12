@@ -19,13 +19,12 @@ LIBFT_FLAGS		= -Llibft
 MINILIBX		= mlx/libmlx.a
 MLX_FLAGS		= -Lmlx -lmlx -framework OpenGL -framework AppKit
 LFLAGS			= $(MLX_FLAGS) $(LIBFT_FLAGS)
-FILES			= cleanup error main parse utils key_events key_events_2 \
-				vector_ops vector_ops_2 vector_ops_inplace colour \
-				parsing/parse_lights parsing/parse_objects parsing/parse_scene parsing/parse_vector_color parsing/parsing_utils parsing/create_objects \
+FILES			= cleanup error main utils \
+				vector_ops vector_ops_inplace colour \
+				parsing/parse parsing/parse_lights parsing/parse_objects parsing/parse_scene \
+				parsing/parse_vector_color parsing/parsing_utils parsing/create_objects \
 				hit_objects put_pixels sphere cylinder plane \
-				change_r_h \
-				translate_obj translate_camera translate_light \
-				rotate_camera rotate_object
+				interface/key_events interface/change_r_h interface/translate_object interface/rotate_object
 GNL				= gnl/get_next_line
 SRC_PATH		= ./src/
 OBJ_PATH 		= ./obj/
@@ -38,6 +37,7 @@ all: $(OBJ_PATH) $(NAME)
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)parsing
+	mkdir -p $(OBJ_PATH)interface
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	$(CC) $(CFLAGS) -O3 -c $< -o $@

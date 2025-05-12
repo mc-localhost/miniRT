@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "../../include/minirt.h"
 
 static void	key_object_rotation(int key, t_data *data)
 {
@@ -99,6 +99,64 @@ static void	keys_light(int key, t_data *data)
 		move_light(data, &data->scene->light, 1.f, 'y');
 	else if (key == KEY_Y)
 		move_light(data, &data->scene->light, -1.f, 'y');
+}
+
+void	print_obj_info(t_obj *obj)
+{
+	char	*obj_names[3];
+
+	obj_names[0] = "SPHERE";
+	obj_names[1] = "PLANE";
+	obj_names[2] = "CYLINDER";
+	if (!obj)
+	{
+		printf("No object selected.\n");
+		return ;
+	}
+	printf("Selected object: type=%s at (%.2f, %.2f, %.2f)\n",
+		obj_names[obj->type],
+		obj->center.x,
+		obj->center.y,
+		obj->center.z);
+}
+
+void	select_next_object(t_data *data)
+{
+	if (!data->scene->objects)
+		return ;
+	if (!data->selected_object)
+		data->selected_object = data->scene->objects;
+	else if (data->selected_object->next)
+		data->selected_object = data->selected_object->next;
+	else
+		data->selected_object = data->scene->objects;
+	print_obj_info(data->selected_object);
+}
+
+void	select_prev_object(t_data *data)
+{
+	t_obj	*current;
+
+	if (!data->scene->objects)
+		return ;
+	if (!data->selected_object || data->selected_object == data->scene->objects)
+	{
+		current = data->scene->objects;
+		while (current->next)
+			current = current->next;
+		data->selected_object = current;
+	}
+	else
+	{
+		current = data->scene->objects;
+		while (current && current->next != data->selected_object)
+			current = current->next;
+		if (current)
+			data->selected_object = current;
+		else
+			data->selected_object = NULL;
+	}
+	print_obj_info(data->selected_object);
 }
 
 int	key_hook(int key, t_data *data)
